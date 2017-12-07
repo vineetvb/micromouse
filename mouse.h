@@ -5,6 +5,7 @@
 #include <cmath>
 #include <iostream>
 #include "maze.h"
+#include "sensor.h"
 
 #define _USE_MATH_DEFINES
 
