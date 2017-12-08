@@ -2,7 +2,9 @@
 #define SENSOR_H_
 
 #include "maze.h"
+
 class Maze;
+class Mouse;
 
 // Single Directional wall sensor
 
@@ -14,16 +16,18 @@ public:
     {
     };
 
-    // these are relative positions of sensor
+    // this is relative position of sensor
     // w.r.t to the mouse
     Sensor(int _cx, int _cy, int _ctheta)
     {
       cx = _cx;
       cy = _cy;
-      _ctheta = ctheta;
-    }
+      ctheta = _ctheta;
+    };
 
   bool readReferenceMaze(Maze const* refMaze);
+
+  Mouse const* mouse;
     
 };
 

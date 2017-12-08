@@ -1,19 +1,37 @@
 #include "sensor.h"
 #include "maze.h"
+using namespace std;
 
 bool
 Sensor::
 readReferenceMaze(Maze const* refMaze)
 {
-        // sensor always reads at position [1,0] relative to its own
-        // frame of reference
-        if (ctheta == 0) // facing RIGHT
-            return refMaze->isRightWall(cx, cy);
-        if (ctheta == 90 ) // facing UP
-            return refMaze->isUpWall(cx, cy);
-        if (ctheta == 180) // facing LEFT
-            return refMaze->isLeftWall(cx, cy);
-        if (ctheta == 270) // facing DOWN
-            return refMaze->isDownWall(cx, cy);
-}
+    // compute absolute position of this sensor w.r.t to the mouse on
+    // which it is mounted
+    int x = mouse->cx;
+    int y = mouse->cy;
+    int theta = (mouse->ctheta + this->ctheta) % 360;
 
+    // sensor always reads at position [1,0] relative to its own
+    // frame of reference
+    if (theta == 0) // facing RIGHT
+    {
+        return refMaze->isRightWall(x, y);
+    }
+
+    if (theta == 90 ) // facing UP
+    {
+        return refMaze->isUpWall(x, y);
+    }
+
+    if (theta == 180) // facing LEFT
+    {
+        return refMaze->isLeftWall(x, y);
+    }
+
+    if (theta == 270) // facing DOWN
+    {
+
+        return refMaze->isDownWall(x, y);
+    }
+}

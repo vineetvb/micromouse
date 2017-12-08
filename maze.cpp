@@ -7,6 +7,10 @@ Maze(int _size): size(_size)
 {
     std::cout << "Creating Maze of size: " << size << std::endl;
     walls = std::unique_ptr<char[]>(new char[size * size]());
+    for (int i =0; i < size*size; ++i)
+    {
+        walls.get()[i] = 0;
+    }    
 }
 
 
@@ -201,7 +205,6 @@ Maze::draw(bool drawMouse)
     {
         int x = mouse->cx, y = size - 1 -mouse->cy;
         int pos = 2 * size * y + y + 2 * x;
-        //std::cout <<mazeStr.size() << "" << x << " " << y << " " << pos << std::endl;
         mazeStr.at(pos) = mazeStr.at(pos)=='_' ? 'E' : 'F';
     }
 

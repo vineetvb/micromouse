@@ -20,15 +20,40 @@ Mouse(void): cx(0), cy(0), ctheta(90)
     Sensor leftSensor(0,0,90);
     Sensor rightSensor(0,0,-90);
 
-    sensors.push_back(frontSensor);
-    sensors.push_back(leftSensor);
-    sensors.push_back(rightSensor);
+    addSensor(&frontSensor);
+    addSensor(&leftSensor);
+    addSensor(&rightSensor);
+}
 
-    // initial sensor ouputs
-    sensorOutputs.push_back(0);
-    sensorOutputs.push_back(0);
+void
+Mouse::
+addSensor(Sensor* sensor)
+{
+    sensor->mouse = this;
+    sensors.push_back(*sensor);
     sensorOutputs.push_back(0);
 }
+
+void
+Mouse::
+show()
+{
+    std::cout << "Mouse: ( " << cx << " " << cy << " " << ctheta << ")" << std::endl;
+    std::cout << "Sensors: FLR " << int(sensorOutputs[0])
+                        << " " << int(sensorOutputs[1])
+                        << " " << int(sensorOutputs[2]) << std::endl
+                        << "```````````" << std::endl;
+}
+
+void
+Mouse::
+turn(int theta)
+{
+    ctheta += theta;
+    ctheta = ctheta % 360;
+    updateTf();
+};
+
 
 // advance forward by 1 position
 void
@@ -37,15 +62,6 @@ advance(void)
 {
     cx = Tf[0]*1 + Tf[1]*0 + cx;
     cy = Tf[2]*1 + Tf[3]*0 + cy;
-
-    // update position of sensors
-    for (auto& sen : sensors)
-    {
-        sen.cx = cx;
-        sen.cy = cy;
-        sen.ctheta += ctheta;
-        sen.ctheta = sen.ctheta % 360;
-    }
 }
 
 void
@@ -68,8 +84,3 @@ readSensors(Maze const* refMaze)
         sensorOutputs[i] = sensors[i].readReferenceMaze(refMaze);
     }
 }
-
-
-
-
-
