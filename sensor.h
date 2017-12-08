@@ -13,11 +13,17 @@ public:
     Sensor(): cx(0), cy(0), ctheta(0)
     {
     };
-    
-    
 
-private:
-  char readReferenceMaze(Maze const* refMaze);
+    // these are relative positions of sensor
+    // w.r.t to the mouse
+    Sensor(int _cx, int _cy, int _ctheta)
+    {
+      cx = _cx;
+      cy = _cy;
+      _ctheta = ctheta;
+    }
+
+  bool readReferenceMaze(Maze const* refMaze);
     
 };
 

@@ -6,7 +6,7 @@ Maze::
 Maze(int _size): size(_size)
 {
     std::cout << "Creating Maze of size: " << size << std::endl;
-    walls = std::make_unique<char*>(new char[size * size]);
+    walls = std::unique_ptr<char[]>(new char[size * size]());
 }
 
 
@@ -19,16 +19,51 @@ setBits(char& node, const char& mask)
 
 char
 Maze::
-getBits(char const& node, const char& mask)
+getBits(char const& node, const char& mask) const
 {
     return node & mask;
 }
 
+bool
+Maze::
+isWall(char const& maskedNode) const
+{
+    return maskedNode > 0;
+}
+
+bool
+Maze::
+isLeftWall(int x, int y) const
+{
+    return isWall( getBits(at(x, y), leftWallMask) );
+}
+
+bool
+Maze::
+isRightWall(int x, int y) const
+{
+    return isWall( getBits( at(x, y), rightWallMask) );
+}
+
+bool
+Maze::
+isUpWall(int x, int y) const
+{
+    return isWall( getBits(at(x, y), upWallMask) );
+}
+
+bool
+Maze::
+isDownWall(int x, int y) const
+{
+    return isWall( getBits(at(x, y), downWallMask) );
+}
+
 char&
 Maze::
-at(int x, int y)
+at(int x, int y) const
 {
-    char * a = *walls.get();
+    char * a = walls.get();
     return a[y*size + x];
 }
 
@@ -41,7 +76,7 @@ setLeftWall(int x, int y)
 
 char
 Maze::
-getLeftWall(int x, int y)
+getLeftWall(int x, int y) const
 {
     return getBits(at(x, y), leftWallMask);
 }
@@ -55,7 +90,7 @@ setRightWall(int x, int y)
 
 char
 Maze::
-getRightWall(int x, int y)
+getRightWall(int x, int y) const
 {
     return getBits(at(x, y), rightWallMask);
 }
@@ -71,7 +106,7 @@ setUpWall(int x, int y)
 
 char
 Maze::
-getUpWall(int x, int y)
+getUpWall(int x, int y) const
 {
     return getBits(at(x, y), upWallMask);
 }
@@ -86,7 +121,7 @@ setDownWall(int x, int y)
 
 char
 Maze::
-getDownWall(int x, int y)
+getDownWall(int x, int y) const
 {
     return getBits(at(x, y), downWallMask);
 }

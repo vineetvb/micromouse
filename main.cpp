@@ -2,7 +2,6 @@
 #include <vector>
 #include <memory>
 #include <random>
-
 #include "maze.h"
 #include "mouse.h"
 
@@ -57,24 +56,16 @@ int main()
     // PLace Mouse in Maze
     maze.addMouse(&mouse);
     
-    maze.draw(false);
-
-    mouse.show();
-    
-    mouse.turn(-90);
-
-    mouse.show();
-    
+    maze.draw(false);    
+    mouse.turn(-90);    
     
     for (int i = 0; i < 4; ++i)
     {
+        //mouse.internalMaze->draw();
+        mouse.readSensors(&maze);
+        mouse.show();
         mouse.advance();
-        mouse.internalMaze->draw();
     }
     
-    
-    
-    
     return 0;
-    
 }
