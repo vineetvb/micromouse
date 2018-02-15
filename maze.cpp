@@ -2,137 +2,101 @@
 #include "maze.h"
 #include <iostream>
 
-Maze::
-Maze(int _size): size(_size)
+Maze::Maze(int _size): size(_size)
 {
     std::cout << "Creating Maze of size: " << size << std::endl;
     walls = std::unique_ptr<char[]>(new char[size * size]());
     for (int i =0; i < size*size; ++i)
     {
         walls.get()[i] = 0;
-    }    
+    }
 }
 
 
-void
-Maze::
-setBits(char& node, const char& mask)
+/* Member functions used to manipulate maze walls */
+void Maze::setBits(char& node, const char& mask)
 {
     node |= mask;
 }
 
-char
-Maze::
-getBits(char const& node, const char& mask) const
+char Maze::getBits(char const& node, const char& mask) const
 {
     return node & mask;
 }
 
-bool
-Maze::
-isWall(char const& maskedNode) const
+bool Maze::isWall(char const& maskedNode) const
 {
     return maskedNode > 0;
 }
 
-bool
-Maze::
-isLeftWall(int x, int y) const
+bool Maze::isLeftWall(int x, int y) const
 {
     return isWall( getBits(at(x, y), leftWallMask) );
 }
 
-bool
-Maze::
-isRightWall(int x, int y) const
+bool Maze::isRightWall(int x, int y) const
 {
     return isWall( getBits( at(x, y), rightWallMask) );
 }
 
-bool
-Maze::
-isUpWall(int x, int y) const
+bool Maze::isUpWall(int x, int y) const
 {
     return isWall( getBits(at(x, y), upWallMask) );
 }
 
-bool
-Maze::
-isDownWall(int x, int y) const
+bool Maze::isDownWall(int x, int y) const
 {
     return isWall( getBits(at(x, y), downWallMask) );
 }
 
-char&
-Maze::
-at(int x, int y) const
+char& Maze::at(int x, int y) const
 {
     char * a = walls.get();
     return a[y*size + x];
 }
 
-void
-Maze::
-setLeftWall(int x, int y)
+void Maze::setLeftWall(int x, int y)
 {
     setBits(at(x, y), leftWallMask);
 }
 
-char
-Maze::
-getLeftWall(int x, int y) const
+char Maze::getLeftWall(int x, int y) const
 {
     return getBits(at(x, y), leftWallMask);
 }
 
-void
-Maze::
-setRightWall(int x, int y)
+void Maze::setRightWall(int x, int y)
 {
     setBits(at(x, y), rightWallMask);
 }
 
-char
-Maze::
-getRightWall(int x, int y) const
+char Maze::getRightWall(int x, int y) const
 {
     return getBits(at(x, y), rightWallMask);
 }
 
-    
-
-void
-Maze::
-setUpWall(int x, int y)
+void Maze::setUpWall(int x, int y)
 {
     setBits(at(x, y), upWallMask);
 }
 
-char
-Maze::
-getUpWall(int x, int y) const
+char Maze::getUpWall(int x, int y) const
 {
     return getBits(at(x, y), upWallMask);
 }
 
 
-void
-Maze::
-setDownWall(int x, int y)
+void Maze::setDownWall(int x, int y)
 {
     setBits(at(x, y), downWallMask);
 }
 
-char
-Maze::
-getDownWall(int x, int y) const
+char Maze::getDownWall(int x, int y) const
 {
     return getBits(at(x, y), downWallMask);
 }
 
-void
-Maze::
-makeBoundaryWalls(void)
+void Maze::makeBoundaryWalls(void)
 {
     // Left Boundary Wall
     for(int y = 0; y < size; ++y)
@@ -156,12 +120,22 @@ makeBoundaryWalls(void)
     for(int x = 0; x < size; ++x)
     {
         setUpWall(x, size - 1);
-    }    
+    }
 }
 
-std::string
-Maze::
-drawCell(int x, int y)
+/* Member functions for physical interaction with a Mouse */
+
+
+void Maze::addMouse(Mouse const* mouseIn)
+{
+    this->mouse = mouseIn;
+};
+
+
+
+
+/* Member Functions that help to visualize */
+std::string Maze::drawCell(int x, int y)
 {
     std::string s ="";
 
@@ -179,17 +153,16 @@ drawCell(int x, int y)
         s += "|";
     else
         s += " ";
-    
+
     return s;
 }
 
 
-void
-Maze::draw(bool drawMouse)
+void Maze::draw(bool drawMouse)
 {
     std::cout << std::string(size*2 - 1, '_') << std::endl;
     std::string mazeStr = "";
-    
+
     for (int i = size - 1; i>=0; --i )
     {
         std::string row = "";
@@ -209,8 +182,6 @@ Maze::draw(bool drawMouse)
     }
 
     std::cout << mazeStr << std::endl;
-    
-                        
+
+
 }
-
-

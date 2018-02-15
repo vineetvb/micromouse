@@ -23,11 +23,16 @@ private:
     const char rightWallMask = 0b00000100;
     const char upWallMask    = 0b00000010;
     const char downWallMask  = 0b00000001;
-    
+
 public:
-    // The nodes are arranged in row-major order from bottom-left node
-    // which is the origin at (0,0), X-axis points right, Y axis
-    // points up
+    /** Return a reference to the node at (x,y).
+        The nodes are arranged in row-major order from bottom-left node
+        which is the origin at (0,0), X-axis points right, Y axis
+        points up.
+	\param x: x position >
+        \param y: y position of cell ^
+        \returns char indicating wall bits
+    */
     char& at(int x, int y) const;
 
     void setLeftWall(int x, int y);
@@ -50,17 +55,20 @@ public:
     std::string drawCell(int x, int y);
     void draw(bool drawMouse = true);
 
+    /// Return the number of cells along one dimension
     int getSize(void){return size;};
 
-    void addMouse(Mouse const* mouseIn) {
-        this->mouse = mouseIn;
-    };
-    
+    /**
+       Places mouse physically in the maze.
+       Default location is wherever the input mouse is designed to start from.
+    */
+    void addMouse(Mouse const* mouseIn);
+
     Maze(int _size);
 
     Mouse const* mouse;
-    
-    
+
+
 };
 
 #endif

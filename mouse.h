@@ -30,7 +30,12 @@ public:
     void show();
 
     void updateTf();
-    void advance();
+
+    /**
+       Attempt moving forward.
+       Returns false on collision with refMaze.
+    */
+    bool advance(Maze const* refMaze);
 
     void addSensor(Sensor * sensor);
     void readSensors(Maze const* refMaze);

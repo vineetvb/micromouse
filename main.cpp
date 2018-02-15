@@ -20,6 +20,9 @@
 #include <vector>
 #include <memory>
 #include <random>
+#include <thread>
+#include <chrono>
+
 #include "maze.h"
 #include "mouse.h"
 
@@ -69,7 +72,8 @@ void randomizeMaze(Maze& M)
 
 int main()
 {
-    std::cout << "Running Micromouse" << std::endl;
+    using namespace std;
+    cout << "Running Micromouse" << endl;
 
     // Make a Maze
     int mazeSize = 16;
@@ -84,15 +88,26 @@ int main()
     maze.addMouse(&mouse);
 
     maze.draw(false);
+    cout << " Reference Maze" << endl;
 
     mouse.turn(-90);
 
-    for (int i = 0; i < 4; ++i)
+    for (int i = 0; i < 10; ++i)
     {
+
         maze.draw();
         mouse.readSensors(&maze);
         mouse.show();
-        mouse.advance();
+
+        bool success = mouse.advance(&maze);
+        if(!success)
+        {
+            cout << " COLLISION WARNING " << endl;
+        }
+
+        std::this_thread::sleep_for(std::chrono::seconds(1));
+        //std::cout << std::flush << std::endl;
+
     }
 
     return 0;
