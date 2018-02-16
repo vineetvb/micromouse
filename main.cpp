@@ -22,9 +22,12 @@
 #include <random>
 #include <thread>
 #include <chrono>
-
 #include "maze.h"
 #include "mouse.h"
+
+#include <cimg/CImg.h>
+using namespace cimg_library;
+
 
 void randomizeMaze(Maze& M)
 {
@@ -87,7 +90,25 @@ int main()
     // PLace Mouse in Maze
     maze.addMouse(&mouse);
 
-    maze.draw(false);
+    CImg<unsigned char> vis(144, 144, 1, 3, 0);
+
+    maze.drawImage(vis);
+
+    maze.draw();
+
+    CImg<unsigned char> visScaled = vis.get_resize(144*5, 144*5);
+
+    CImgDisplay main_disp(visScaled, "Maze");
+
+    while (!main_disp.is_closed() )
+    {
+        main_disp.wait();
+    }
+
+
+
+    return 0;
+
     cout << " Reference Maze" << endl;
 
     mouse.turn(-90);

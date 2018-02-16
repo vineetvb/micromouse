@@ -4,6 +4,8 @@
 #include <memory>
 #include "mouse.h"
 
+#include <cimg/CImg.h>
+
 class Mouse;
 
 class Maze
@@ -53,7 +55,13 @@ public:
     void makeBoundaryWalls(void);
 
     std::string drawCell(int x, int y);
+    void drawCellImage(cimg_library::CImg<unsigned char>& img, int x, int y, unsigned char const* color);
+
     void draw(bool drawMouse = true);
+
+    void drawImage(cimg_library::CImg<unsigned char>& img, bool drawMouse = true);
+
+    void drawMouse(cimg_library::CImg<unsigned char>& img, int x, int y);
 
     /// Return the number of cells along one dimension
     int getSize(void){return size;};

@@ -182,6 +182,64 @@ void Maze::draw(bool drawMouse)
     }
 
     std::cout << mazeStr << std::endl;
+}
 
 
+using namespace cimg_library;
+
+void Maze::drawCellImage(CImg<unsigned char>& img, int x, int y, unsigned char const* color)
+{
+    int xl = std::max(0, 8 * x);
+    int xr = xl + 8;
+
+    int yt = (15 - y) * 8;
+    int yb = yt + 8;
+
+    if (getUpWall(x, y))
+        img.draw_line(xl, yt, xr, yt, color);
+    if (getLeftWall(x, y))
+        img.draw_line(xl, yt, xl, yb, color);
+    if (getDownWall(x, y))
+        img.draw_line(xl, yb, xr, yb, color);
+    if (getRightWall(x, y))
+        img.draw_line(xr, yb, xr, yt, color);
+
+    img(xl, yb, 1) = 200;
+    img(xl, yb, 2) = 200;
+    img(xl, yb, 0) = 200;
+
+}
+
+void Maze::drawMouse(CImg<unsigned char>& img, int x, int y)
+{
+    int xc = 8*x + 4;
+    int yc = 8*(15 -y) + 4;
+
+    const unsigned char green[] = {20, 200, 20};
+
+
+    img(xc, yc) = 200;
+    img(xc + 2, yc + 2) = 200;
+
+}
+
+void Maze::drawImage(CImg<unsigned char>& img, bool mouseDraw)
+{
+    const unsigned char red[] = {200, 10, 20};
+    const unsigned char green[] = {20, 200, 20};
+    const unsigned char gray[] = {200, 200, 200};
+
+    for (int x = 0; x < size; ++x)
+    {
+        for (int y = 0; y < size; ++y)
+        {
+            drawCellImage(img, x, y, red);
+
+        }
+    }
+
+    if (mouseDraw)
+    {
+        drawMouse(img, 4, 4);
+    }
 }
