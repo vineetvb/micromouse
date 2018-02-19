@@ -210,16 +210,37 @@ void Maze::drawCellImage(CImg<unsigned char>& img, int x, int y, unsigned char c
 
 }
 
-void Maze::drawMouse(CImg<unsigned char>& img, int x, int y)
+void Maze::drawMouse(CImg<unsigned char>& img)
 {
-    int xc = 8*x + 4;
-    int yc = 8*(15 -y) + 4;
+    // (xc, yc) is the topleft pixel of the 3xx mouse image
+    int xc = 8*mouse->cx + 4 - 1;
+    int yc = 8*(15 - mouse->cy) + 4 - 1;
 
-    const unsigned char green[] = {20, 200, 20};
+    for (int i = 0; i < 3; ++i)
+    {
+        for (int j = 0; j < 3; ++j)
+        {
+            img(xc + i, yc + j, 2) = 250;
+        }
+    }
+
+    switch(mouse->ctheta)
+    {
+    case 0:
+        img(xc + 2, yc + 1, 1) = 250;
+        break;
+    case 90:
+        img(xc + 1, yc, 1) = 250;
+        break;
+    case 180:
+        img(xc, yc + 1, 1) = 250;
+        break;
+    case 270:
+        img(xc + 1, yc + 2, 2) = 250;
+        break;
+    }
 
 
-    img(xc, yc) = 200;
-    img(xc + 2, yc + 2) = 200;
 
 }
 
@@ -240,6 +261,6 @@ void Maze::drawImage(CImg<unsigned char>& img, bool mouseDraw)
 
     if (mouseDraw)
     {
-        drawMouse(img, 4, 4);
+        drawMouse(img);
     }
 }

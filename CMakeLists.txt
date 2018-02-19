@@ -4,11 +4,11 @@ project(Micromouse)
 set(SOURCES main.cpp maze.cpp mouse.cpp sensor.cpp)
 set(CMAKE_CXX_FLAGS "-std=c++1y -O0 -g")
 
-if(APPLE)
-	find_package(X11 REQUIRED)
-	message(STATUS X11_FOUND)
-	include_directories(${X11_INCLUDE_DIR})
-endif()
+
+# X11 is required
+find_package(X11 REQUIRED)
+message(STATUS X11_FOUND)
+include_directories(${X11_INCLUDE_DIR})
 
 include_directories(${CMAKE_SOURCE_DIR}/3rdparty)
 

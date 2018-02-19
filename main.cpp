@@ -87,7 +87,7 @@ int main()
     // Make a mouse
     Mouse mouse;
 
-    // PLace Mouse in Maze
+    // Place Mouse in Maze
     maze.addMouse(&mouse);
 
     CImg<unsigned char> vis(144, 144, 1, 3, 0);
@@ -100,23 +100,19 @@ int main()
 
     CImgDisplay main_disp(visScaled, "Maze");
 
-    while (!main_disp.is_closed() )
-    {
-        main_disp.wait();
-    }
-
-
-
-    return 0;
-
     cout << " Reference Maze" << endl;
 
     mouse.turn(-90);
 
-    for (int i = 0; i < 10; ++i)
+    for (int i = 0; i < 15; ++i)
     {
+        vis.fill(0);
 
-        maze.draw();
+        maze.drawImage(vis);
+        visScaled = vis.get_resize(144*5, 144*5);
+        visScaled.display(main_disp);
+
+
         mouse.readSensors(&maze);
         mouse.show();
 
@@ -127,8 +123,11 @@ int main()
         }
 
         std::this_thread::sleep_for(std::chrono::seconds(1));
-        //std::cout << std::flush << std::endl;
+    }
 
+    while (!main_disp.is_closed() )
+    {
+        main_disp.wait();
     }
 
     return 0;

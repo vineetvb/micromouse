@@ -61,7 +61,7 @@ public:
 
     void drawImage(cimg_library::CImg<unsigned char>& img, bool drawMouse = true);
 
-    void drawMouse(cimg_library::CImg<unsigned char>& img, int x, int y);
+    void drawMouse(cimg_library::CImg<unsigned char>& img);
 
     /// Return the number of cells along one dimension
     int getSize(void){return size;};
