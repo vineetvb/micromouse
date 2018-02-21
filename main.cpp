@@ -102,9 +102,10 @@ int main()
 
     cout << " Reference Maze" << endl;
 
-    mouse.turn(-90);
+    CommandI stepFwd(0, 1);
 
-    for (int i = 0; i < 15; ++i)
+
+    for (int i = 0; i < 5; ++i)
     {
         vis.fill(0);
 
@@ -116,7 +117,8 @@ int main()
         mouse.readSensors(&maze);
         mouse.show();
 
-        bool success = mouse.advance(&maze);
+        bool success = mouse.executeCommand(&stepFwd, &maze);
+
         if(!success)
         {
             cout << " COLLISION WARNING " << endl;
@@ -124,6 +126,7 @@ int main()
 
         std::this_thread::sleep_for(std::chrono::seconds(1));
     }
+
 
     while (!main_disp.is_closed() )
     {

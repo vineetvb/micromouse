@@ -176,7 +176,7 @@ void Maze::draw(bool drawMouse)
 
     if(drawMouse)
     {
-        int x = mouse->cx, y = size - 1 -mouse->cy;
+        int x = mouse->getX(), y = size - 1 -mouse->getY();
         int pos = 2 * size * y + y + 2 * x;
         mazeStr.at(pos) = mazeStr.at(pos)=='_' ? 'E' : 'F';
     }
@@ -213,8 +213,8 @@ void Maze::drawCellImage(CImg<unsigned char>& img, int x, int y, unsigned char c
 void Maze::drawMouse(CImg<unsigned char>& img)
 {
     // (xc, yc) is the topleft pixel of the 3xx mouse image
-    int xc = 8*mouse->cx + 4 - 1;
-    int yc = 8*(15 - mouse->cy) + 4 - 1;
+    int xc = 8*mouse->getX() + 4 - 1;
+    int yc = 8*(15 - mouse->getY()) + 4 - 1;
 
     for (int i = 0; i < 3; ++i)
     {
@@ -224,7 +224,7 @@ void Maze::drawMouse(CImg<unsigned char>& img)
         }
     }
 
-    switch(mouse->ctheta)
+    switch(mouse->getTheta())
     {
     case 0:
         img(xc + 2, yc + 1, 1) = 250;
@@ -255,7 +255,6 @@ void Maze::drawImage(CImg<unsigned char>& img, bool mouseDraw)
         for (int y = 0; y < size; ++y)
         {
             drawCellImage(img, x, y, red);
-
         }
     }
 

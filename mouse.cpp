@@ -68,13 +68,25 @@ void Mouse::turn(int theta)
 };
 
 
-bool Mouse::advance(Maze const* refMaze)
+bool Mouse::advance(float theta, float x, Maze const* refMaze)
 {
-    int cxnew = Tf[0]*1 + Tf[1]*0 + cx;
-    int cynew = Tf[2]*1 + Tf[3]*0 + cy;
+    /* Note that the turn is done before the forward movement.
+       e.g. 1, 90 implies, turn by 90 and then advance by 1 unit.
+*/
+    int xi = static_cast<int>(x);
+    int cti = static_cast<int>(theta);
+
+    ctheta += cti;
+    ctheta %= 360;
+    float costht = std::cos(deg2rad(ctheta));
+    float sintht = std::sin(deg2rad(ctheta));
+
+    int cxnew = xi*costht + cx;
+    int cynew = xi*sintht + cy;
 
     bool success = false;
 
+    // Collision Detection
     if (cy == cynew)
     {
         // horizontal movement of mouse
@@ -113,6 +125,18 @@ bool Mouse::advance(Maze const* refMaze)
     return success;
 }
 
+/*
+Command object specifies two values to update
+(cx', theta'). These are the realtive values in the robot
+frame of reference.
+*/
+bool Mouse::executeCommand(CommandI const* command, Maze const * refMaze)
+{
+    return this->advance(command->theta, command->x, refMaze);
+
+}
+
+
 void Mouse::updateTf()
 {
     Tf[0] = std::cos(deg2rad(ctheta));
@@ -120,6 +144,8 @@ void Mouse::updateTf()
     Tf[2] = std::sin(deg2rad(ctheta));
     Tf[3] = std::cos(deg2rad(ctheta));
 }
+
+
 
 // populates the sensor readings array with the latest data
 void Mouse::readSensors(Maze const* refMaze)

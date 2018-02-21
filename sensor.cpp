@@ -2,15 +2,13 @@
 #include "maze.h"
 using namespace std;
 
-bool
-Sensor::
-readReferenceMaze(Maze const* refMaze)
+bool Sensor::readReferenceMaze(Maze const* refMaze)
 {
     // compute absolute position of this sensor w.r.t to the mouse on
     // which it is mounted
-    int x = mouse->cx;
-    int y = mouse->cy;
-    int theta = (mouse->ctheta + this->ctheta) % 360;
+    int x = mouse->getX();
+    int y = mouse->getY();
+    int theta = (mouse->getTheta() + this->ctheta) % 360;
 
     // sensor always reads at position [1,0] relative to its own
     // frame of reference
