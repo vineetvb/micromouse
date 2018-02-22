@@ -1,9 +1,8 @@
 cmake_minimum_required(VERSION 3.8)
 project(Micromouse)
 
-set(SOURCES main.cpp maze.cpp mouse.cpp sensor.cpp)
+set(SOURCES algorithm.cpp main.cpp maze.cpp mouse.cpp sensor.cpp)
 set(CMAKE_CXX_FLAGS "-std=c++1y -O0 -g")
-
 
 # X11 is required
 find_package(X11 REQUIRED)

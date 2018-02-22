@@ -155,3 +155,13 @@ void Mouse::readSensors(Maze const* refMaze)
         sensorOutputs[i] = sensors[i].readReferenceMaze(refMaze);
     }
 }
+
+// runs algorithm in infinite loop
+void Mouse::start(Maze const* refMaze)
+{
+    while (true)
+    {
+        const CommandI c = algorithm->process();
+        this->executeCommand(&c, refMaze);
+    }
+}

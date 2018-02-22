@@ -8,6 +8,7 @@
 #include "maze.h"
 #include "sensor.h"
 #include "command.h"
+#include "algorithm.h"
 
 #define _USE_MATH_DEFINES
 
@@ -21,6 +22,9 @@ class Mouse
 private:
     // internal representation of explored maze
     Maze* internalMaze;
+
+    // Algorithm used to move in the maze
+    //Algorithm * algorithm;
 
     void readWalls();
 
@@ -61,6 +65,9 @@ private:
 
     void show();
 
+    void start(Maze const* refMaze);
+
+    Algorithm * algorithm;
 };
 
 #endif

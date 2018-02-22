@@ -103,7 +103,9 @@ int main()
     cout << " Reference Maze" << endl;
 
     CommandI stepFwd(0, 1);
-
+    RandomExplorerAlgorithm explore;
+    mouse.algorithm = &explore;
+    mouse.start(&maze);
 
     for (int i = 0; i < 5; ++i)
     {

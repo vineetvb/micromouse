@@ -29,7 +29,6 @@ bool Sensor::readReferenceMaze(Maze const* refMaze)
 
     if (theta == 270) // facing DOWN
     {
-
         return refMaze->isDownWall(x, y);
     }
 }
