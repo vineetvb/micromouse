@@ -38,7 +38,7 @@ void randomizeMaze(Maze& M)
     std::mt19937 gen(rd()); //Standard mersenne_twister_engine seeded with rd()
     std::uniform_int_distribution<> dis(0, size-1);
     int randwalls = size/16;
-    int randsamples = size * size;
+    int randsamples = size * size / 2;
     for (int i=0; i < randsamples; ++i)
     {
         int ir = dis(gen);
@@ -89,7 +89,7 @@ int main()
 
     // Set it explore randomly
     RandomExplorerAlgorithm explore;
-    mouse.algorithm = &explore;
+    mouse.setAlgorithm(&explore);
 
     // Place Mouse in Maze
     maze.addMouse(&mouse);
@@ -100,56 +100,6 @@ int main()
 
     // Start maze simulation
     mouse.start(&maze, &sim);
-    
-    
-    
-    /*CImg<unsigned char> vis(144, 144, 1, 3, 0);
-
-    maze.drawImage(vis);
-
-    maze.draw();
-
-    CImg<unsigned char> visScaled = vis.get_resize(144*5, 144*5);
-
-    CImgDisplay main_disp(visScaled, "Maze");
-
-    cout << " Reference Maze" << endl;
-
-    CommandI stepFwd(0, 1);
-    RandomExplorerAlgorithm explore;
-
-    
-    mouse.algorithm = &explore;
-    mouse.start(&maze);
-
-    for (int i = 0; i < 5; ++i)
-    {
-        vis.fill(0);
-
-        maze.drawImage(vis);
-        visScaled = vis.get_resize(144*5, 144*5);
-        visScaled.display(main_disp);
-
-
-        mouse.readSensors(&maze);
-        mouse.show();
-
-        bool success = mouse.executeCommand(&stepFwd, &maze);
-
-        if(!success)
-        {
-            cout << " COLLISION WARNING " << endl;
-        }
-
-        std::this_thread::sleep_for(std::chrono::seconds(1));
-    }
-
-
-    while (!main_disp.is_closed() )
-    {
-        main_disp.wait();
-    }
-    */
     
     return 0;
 }

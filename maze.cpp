@@ -187,7 +187,7 @@ void Maze::draw(bool drawMouse)
 
 using namespace cimg_library;
 
-void Maze::drawCellImage(CImg<unsigned char>& img, int x, int y, unsigned char const* color)
+void Maze::drawCellImage(CImg<unsigned char>& img, int x, int y, unsigned char const* color) const
 {
     int xl = std::max(0, 8 * x);
     int xr = xl + 8;
@@ -210,7 +210,7 @@ void Maze::drawCellImage(CImg<unsigned char>& img, int x, int y, unsigned char c
 
 }
 
-void Maze::drawMouse(CImg<unsigned char>& img)
+void Maze::drawMouse(CImg<unsigned char>& img) const
 {
     // (xc, yc) is the topleft pixel of the 3xx mouse image
     int xc = 8*mouse->getX() + 4 - 1;
@@ -244,7 +244,7 @@ void Maze::drawMouse(CImg<unsigned char>& img)
 
 }
 
-void Maze::drawImage(CImg<unsigned char>& img, bool mouseDraw)
+void Maze::drawImage(CImg<unsigned char>& img, bool mouseDraw) const
 {
     const unsigned char red[] = {200, 10, 20};
     const unsigned char green[] = {20, 200, 20};

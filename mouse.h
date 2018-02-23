@@ -17,16 +17,17 @@ float deg2rad(int deg);
 
 class Maze;
 class Sensor;
+class Simulation;
 
 class Mouse
 {
 private:
     // internal representation of explored maze
     Maze* internalMaze;
-
+    
     // Algorithm used to move in the maze
     //Algorithm * algorithm;
-
+    
     void readWalls();
 
     void turn(int theta);
@@ -42,7 +43,6 @@ private:
     // Intended to be private. To be used with the appropriate Command interface
     bool advance(float theta, float x, Maze const* refMaze);
 
-
     //current x,y, theta position
     // This mouse only supports integer coords
     int cx, cy, ctheta;
@@ -52,7 +52,8 @@ private:
     // Sensors on this mouse
     std::vector<Sensor> sensors;
     std::vector<bool> sensorOutputs;
-
+    
+    Algorithm * algorithm;
  public:
     Mouse(void);
 
@@ -68,7 +69,7 @@ private:
 
     void start(Maze const* refMaze, Simulation * sim = nullptr);
 
-    Algorithm * algorithm;
+    void setAlgorithm(Algorithm * algorithm);
 };
 
 #endif

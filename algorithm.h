@@ -15,8 +15,8 @@ class RandomExplorerAlgorithm : public Algorithm
 {
 public:
     RandomExplorerAlgorithm()
-        {
-        };
+    {
+    };
     
     const CommandI process();
     

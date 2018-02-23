@@ -1,5 +1,6 @@
 #include "mouse.h"
 #include "sensor.h"
+#include <thread>
 
 float deg2rad(int deg)
 {
@@ -155,10 +156,17 @@ void Mouse::readSensors(Maze const* refMaze)
     }
 }
 
+void Mouse::setAlgorithm(Algorithm * algo)
+{
+    algorithm = algo;
+}
+
+
 // runs algorithm in infinite loop
 void Mouse::start(Maze const* refMaze, Simulation * sim)
 {
-    while (true)
+    sim->render(refMaze);
+    while (!sim->display.is_closed())
     {
         const CommandI c = algorithm->process();
         this->executeCommand(&c, refMaze);
@@ -167,5 +175,7 @@ void Mouse::start(Maze const* refMaze, Simulation * sim)
         {
             sim->render(refMaze);
         }
+
+        std::this_thread::sleep_for(std::chrono::seconds(1));
     }
 }

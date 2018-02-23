@@ -1,7 +1,7 @@
 #ifndef MAZE_H_
 #define MAZE_H_
-
 #include <memory>
+
 #include "mouse.h"
 
 #include <cimg/CImg.h>
@@ -55,16 +55,16 @@ public:
     void makeBoundaryWalls(void);
 
     std::string drawCell(int x, int y);
-    void drawCellImage(cimg_library::CImg<unsigned char>& img, int x, int y, unsigned char const* color);
+    void drawCellImage(cimg_library::CImg<unsigned char>& img, int x, int y, unsigned char const* color) const;
 
     void draw(bool drawMouse = true);
 
-    void drawImage(cimg_library::CImg<unsigned char>& img, bool drawMouse = true);
+    void drawImage(cimg_library::CImg<unsigned char>& img, bool drawMouse = true) const;
 
-    void drawMouse(cimg_library::CImg<unsigned char>& img);
+    void drawMouse(cimg_library::CImg<unsigned char>& img) const;
 
     /// Return the number of cells along one dimension
-    int getSize(void){return size;};
+    int getSize(void) const  {return size;};
 
     /**
        Places mouse physically in the maze.
