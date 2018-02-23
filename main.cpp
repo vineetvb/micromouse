@@ -87,10 +87,23 @@ int main()
     // Make a mouse
     Mouse mouse;
 
+    // Set it explore randomly
+    RandomExplorerAlgorithm explore;
+    mouse.algorithm = &explore;
+
     // Place Mouse in Maze
     maze.addMouse(&mouse);
 
-    CImg<unsigned char> vis(144, 144, 1, 3, 0);
+    // Create the Simulation object
+    // Simulation display size is currently fixed to 144x144
+    Simulation sim(144, 144, 5);
+
+    // Start maze simulation
+    mouse.start(&maze, &sim);
+    
+    
+    
+    /*CImg<unsigned char> vis(144, 144, 1, 3, 0);
 
     maze.drawImage(vis);
 
@@ -104,6 +117,8 @@ int main()
 
     CommandI stepFwd(0, 1);
     RandomExplorerAlgorithm explore;
+
+    
     mouse.algorithm = &explore;
     mouse.start(&maze);
 
@@ -134,6 +149,7 @@ int main()
     {
         main_disp.wait();
     }
-
+    */
+    
     return 0;
 }

@@ -9,6 +9,7 @@
 #include "sensor.h"
 #include "command.h"
 #include "algorithm.h"
+#include "simulation.h"
 
 #define _USE_MATH_DEFINES
 
@@ -65,7 +66,7 @@ private:
 
     void show();
 
-    void start(Maze const* refMaze);
+    void start(Maze const* refMaze, Simulation * sim = nullptr);
 
     Algorithm * algorithm;
 };

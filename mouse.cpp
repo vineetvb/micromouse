@@ -133,7 +133,6 @@ frame of reference.
 bool Mouse::executeCommand(CommandI const* command, Maze const * refMaze)
 {
     return this->advance(command->theta, command->x, refMaze);
-
 }
 
 
@@ -157,11 +156,16 @@ void Mouse::readSensors(Maze const* refMaze)
 }
 
 // runs algorithm in infinite loop
-void Mouse::start(Maze const* refMaze)
+void Mouse::start(Maze const* refMaze, Simulation * sim)
 {
     while (true)
     {
         const CommandI c = algorithm->process();
         this->executeCommand(&c, refMaze);
+
+        if (sim)
+        {
+            sim->render(refMaze);
+        }
     }
 }
