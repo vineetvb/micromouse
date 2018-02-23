@@ -159,6 +159,7 @@ void Mouse::readSensors(Maze const* refMaze)
 void Mouse::setAlgorithm(Algorithm * algo)
 {
     algorithm = algo;
+    static_cast<RandomExplorerAlgorithm *>(algorithm)->mouse = this;
 }
 
 
@@ -168,6 +169,10 @@ void Mouse::start(Maze const* refMaze, Simulation * sim)
     sim->render(refMaze);
     while (!sim->display.is_closed())
     {
+        show();
+
+        readSensors(refMaze);
+
         const CommandI c = algorithm->process();
         this->executeCommand(&c, refMaze);
 

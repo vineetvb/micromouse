@@ -236,7 +236,7 @@ void Maze::drawMouse(CImg<unsigned char>& img) const
         img(xc, yc + 1, 1) = 250;
         break;
     case 270:
-        img(xc + 1, yc + 2, 2) = 250;
+        img(xc + 1, yc + 2, 1) = 250;
         break;
     }
 

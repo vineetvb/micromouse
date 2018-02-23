@@ -18,16 +18,17 @@ float deg2rad(int deg);
 class Maze;
 class Sensor;
 class Simulation;
+class Algorithm;
 
 class Mouse
 {
 private:
     // internal representation of explored maze
     Maze* internalMaze;
-    
+
     // Algorithm used to move in the maze
     //Algorithm * algorithm;
-    
+
     void readWalls();
 
     void turn(int theta);
@@ -52,7 +53,7 @@ private:
     // Sensors on this mouse
     std::vector<Sensor> sensors;
     std::vector<bool> sensorOutputs;
-    
+
     Algorithm * algorithm;
  public:
     Mouse(void);
@@ -60,6 +61,8 @@ private:
     bool executeCommand(CommandI const* command, Maze const * refMaze);
     void addSensor(Sensor * sensor);
     void readSensors(Maze const* refMaze);
+
+    const std::vector<bool> getSensorState() const {return sensorOutputs;};
 
     int getX() const {return cx;}
     int getY() const {return cy;}

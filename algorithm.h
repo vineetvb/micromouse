@@ -2,6 +2,9 @@
 #define ALGORITHM_H_
 
 #include "command.h"
+#include "mouse.h"
+
+class Mouse;
 
 class Algorithm
 {
@@ -17,12 +20,13 @@ public:
     RandomExplorerAlgorithm()
     {
     };
-    
+
     const CommandI process();
-    
+
+    const Mouse * mouse;
+
 };
 
-    
+
 
 #endif
-    
