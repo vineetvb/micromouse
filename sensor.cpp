@@ -8,7 +8,9 @@ bool Sensor::readReferenceMaze(Maze const* refMaze)
     // which it is mounted
     int x = mouse->getX();
     int y = mouse->getY();
-    int theta = (mouse->getTheta() + this->ctheta) % 360;
+    int theta = (mouse->getTheta() + this->ctheta + 360) % 360;
+
+    //std::cout << " theta : " << theta << std::endl;
 
     // sensor always reads at position [1,0] relative to its own
     // frame of reference

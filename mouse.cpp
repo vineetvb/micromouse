@@ -63,7 +63,7 @@ void Mouse::show()
 
 void Mouse::turn(int theta)
 {
-    ctheta += theta;
+    ctheta += (theta + 360);
     ctheta %= 360;
     updateTf();
 };
@@ -77,13 +77,14 @@ bool Mouse::advance(float theta, float x, Maze const* refMaze)
     int xi = static_cast<int>(x);
     int cti = static_cast<int>(theta);
 
-    ctheta += cti;
+    ctheta += (cti + 360);
     ctheta %= 360;
     float costht = std::cos(deg2rad(ctheta));
     float sintht = std::sin(deg2rad(ctheta));
-
-    int cxnew = xi*costht + cx;
-    int cynew = xi*sintht + cy;
+    float cxnewf = xi*costht + cx;
+    float cynewf = xi*sintht + cy;
+    int cxnew = static_cast<int>(std::round(cxnewf));
+    int cynew = static_cast<int>(std::round(cynewf));
 
     bool success = false;
 
@@ -167,12 +168,10 @@ void Mouse::setAlgorithm(Algorithm * algo)
 void Mouse::start(Maze const* refMaze, Simulation * sim)
 {
     sim->render(refMaze);
+
     while (!sim->display.is_closed())
     {
-        show();
-
         readSensors(refMaze);
-
         const CommandI c = algorithm->process();
         this->executeCommand(&c, refMaze);
 
@@ -181,6 +180,6 @@ void Mouse::start(Maze const* refMaze, Simulation * sim)
             sim->render(refMaze);
         }
 
-        std::this_thread::sleep_for(std::chrono::seconds(1));
+        std::this_thread::sleep_for(std::chrono::milliseconds(100));
     }
 }

@@ -3,6 +3,7 @@
 
 #include "command.h"
 #include "mouse.h"
+#include <random>
 
 class Mouse;
 
@@ -19,11 +20,17 @@ class RandomExplorerAlgorithm : public Algorithm
 public:
     RandomExplorerAlgorithm()
     {
+      std::random_device rd;  //Will be used to obtain a seed for the random number engine
+      gen = std::mt19937(rd()); //Standard mersenne_twister_engine seeded with rd()
+      dis = std::uniform_int_distribution<>(0, 9);
     };
 
     const CommandI process();
 
     const Mouse * mouse;
+
+    std::uniform_int_distribution<> dis;
+    std::mt19937 gen;
 
 };
 
