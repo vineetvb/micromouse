@@ -27,6 +27,12 @@ const CommandI RandomExplorerAlgorithm::process()
         }
     }
 
+    int xpos = mouse->getX();
+    int ypos = mouse->getY();
 
+    if (xpos == 7 && ypos ==7)
+    {
+        c = CommandI(0, 0);
+    }
     return c;
 }

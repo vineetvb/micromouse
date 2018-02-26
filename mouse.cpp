@@ -168,7 +168,10 @@ void Mouse::start(Maze const* refMaze, Simulation * sim)
 {
     // Render the maze once
     if (sim)
+    {
         sim->render(refMaze);
+        sim->scaleAndDisplay();
+    }
 
     // while the mouse is moving keep updating the mouse position
     while (!sim->display.is_closed())
@@ -176,12 +179,11 @@ void Mouse::start(Maze const* refMaze, Simulation * sim)
         readSensors(refMaze);
         const CommandI c = algorithm->process();
         this->executeCommand(&c, refMaze);
-
         if (sim)
         {
             sim->render(this);
+            sim->scaleAndDisplay();
         }
-
         std::this_thread::sleep_for(std::chrono::milliseconds(100));
     }
 }

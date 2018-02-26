@@ -22,9 +22,9 @@ void Simulation::render(Maze const* maze, int x, int y, const unsigned char* col
         image.draw_line(xr, yb, xr, yt, color);
 
     // Draw the post in the bottom left corner
-    image(xl, yb, 1) = 200;
-    image(xl, yb, 2) = 200;
-    image(xl, yb, 0) = 200;
+    image(xl, yb, 1) = 50;
+    image(xl, yb, 2) = 50;
+    image(xl, yb, 0) = 50;
 }
 
 void Simulation::render(Maze const* maze)
@@ -54,6 +54,7 @@ void Simulation::render(Mouse const* mouse)
         for (int j = 0; j < 3; ++j)
         {
             image(xc + i, yc + j, 2) = 0;
+            image(xc + i, yc + j, 1) = 0;
         }
     }
 

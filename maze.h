@@ -21,10 +21,13 @@ private:
     // helper method to set wall bit masks
     void setBits(char& node, const char& wallMask);
     char getBits(char const& node, const char& wallMask) const;
-    const char leftWallMask  = 0b00001000;
-    const char rightWallMask = 0b00000100;
-    const char upWallMask    = 0b00000010;
-    const char downWallMask  = 0b00000001;
+
+    // Same convention as outlined here
+    // https://github.com/micromouseonline/micromouse_maze_tool
+    const char leftWallMask  = 0x08 ;
+    const char rightWallMask = 0x02 ;
+    const char upWallMask    = 0x01 ;
+    const char downWallMask  = 0x04 ;
 
 public:
     /** 
@@ -54,6 +57,9 @@ public:
     bool isDownWall(int x, int y) const;
 
     void makeBoundaryWalls(void);
+    void randomizeWalls(void);
+
+    void fromMazeFile(std::string const& mazeFileName);
 
     // To be removed
     std::string drawCell(int x, int y);

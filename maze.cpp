@@ -1,6 +1,7 @@
 
 #include "maze.h"
 #include <iostream>
+#include <fstream>
 
 Maze::Maze(int _size): size(_size)
 {
@@ -123,15 +124,69 @@ void Maze::makeBoundaryWalls(void)
     }
 }
 
+void Maze::randomizeWalls()
+{
+    using namespace std;
+    std::random_device rd;  //Will be used to obtain a seed for the random number engine
+    std::mt19937 gen(rd()); //Standard mersenne_twister_engine seeded with rd()
+    std::uniform_int_distribution<> dis(0, size-1);
+    int randwalls = size/16;
+    int randsamples = size * size / 2;
+    for (int i=0; i < randsamples; ++i)
+    {
+        int ir = dis(gen);
+        int jr = dis(gen);
+        for (int l = 0; l < randwalls; ++l)
+        {
+            int lr = dis(gen);
+            switch (lr%4)
+            {
+            case 0:
+                setLeftWall(jr, ir);
+                if (jr > 0 )
+                    setRightWall(jr-1, ir);
+                break;
+            case 1:
+                setRightWall(jr, ir);
+                if (jr < size - 1)
+                    setLeftWall(jr + 1, ir);
+                break;
+            case 2:
+                setUpWall(jr, ir);
+                if (ir < size - 1)
+                    setDownWall(jr, ir + 1);
+                break;
+            case 3:
+                setDownWall(jr, ir);
+                if (ir > 0)
+                    setUpWall(jr, ir - 1);
+            }
+        }
+    }
+}
+
+void Maze::fromMazeFile(const std::string& mazeFileName)
+{
+    std::ifstream mazeFile(mazeFileName.c_str(), std::ios::binary);
+    char f[256];
+    mazeFile.read(f, 256);
+    for ( int i = 0; i < size; ++i)
+    {
+        for ( int j = 0; j < size; ++j)
+        {
+            char c = f[i*size + j];
+            setBits(at(i, j), c );
+        }
+    }
+}
+
+
+
 /* Member functions for physical interaction with a Mouse */
-
-
 void Maze::addMouse(Mouse const* mouseIn)
 {
     this->mouse = mouseIn;
 };
-
-
 
 
 /* Member Functions that help to visualize */

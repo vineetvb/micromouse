@@ -16,62 +16,8 @@
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include <iostream>
-#include <vector>
-#include <memory>
-#include <random>
-#include <thread>
-#include <chrono>
 #include "maze.h"
 #include "mouse.h"
-
-#include <cimg/CImg.h>
-using namespace cimg_library;
-
-
-void randomizeMaze(Maze& M)
-{
-    int size = M.getSize();
-    using namespace std;
-
-    std::random_device rd;  //Will be used to obtain a seed for the random number engine
-    std::mt19937 gen(rd()); //Standard mersenne_twister_engine seeded with rd()
-    std::uniform_int_distribution<> dis(0, size-1);
-    int randwalls = size/16;
-    int randsamples = size * size / 2;
-    for (int i=0; i < randsamples; ++i)
-    {
-        int ir = dis(gen);
-        int jr = dis(gen);
-        for (int l = 0; l < randwalls; ++l)
-        {
-            int lr = dis(gen);
-            switch (lr%4)
-            {
-            case 0:
-                M.setLeftWall(jr, ir);
-                if (jr > 0 )
-                    M.setRightWall(jr-1, ir);
-                break;
-            case 1:
-                M.setRightWall(jr, ir);
-                if (jr < size - 1)
-                    M.setLeftWall(jr + 1, ir);
-                break;
-            case 2:
-                M.setUpWall(jr, ir);
-                if (ir < size - 1)
-                    M.setDownWall(jr, ir + 1);
-                break;
-            case 3:
-                M.setDownWall(jr, ir);
-                if (ir > 0)
-                    M.setUpWall(jr, ir - 1);
-            }
-        }
-    }
-}
-
 
 int main()
 {
@@ -82,8 +28,7 @@ int main()
     int mazeSize = 16;
     Maze maze(mazeSize);
     maze.makeBoundaryWalls();
-    randomizeMaze(maze);
-
+    maze.fromMazeFile("/home/vbhatawadekar/code/micromouse/hoku4.maz");
     // Make a mouse
     Mouse mouse;
 
@@ -96,7 +41,7 @@ int main()
 
     // Create the Simulation object
     // Simulation display size is currently fixed to 144x144
-    Simulation sim(144, 144, 1);
+    Simulation sim(144, 144, 3);
 
     // Start maze simulation
     mouse.start(&maze, &sim);
