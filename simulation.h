@@ -16,11 +16,22 @@ public:
     };
 
     void render(Maze const * maze);
+
+    // store coords of previous render to erase before calling this render
+    void render(Mouse const* mouse);
+
+    cimg_library::CImgDisplay display;
+
+    void scaleAndDisplay();
+    
+ private:
+    // helper method that draws cell, should probably be private
+    void render(Maze const* maze, int x, int y, const unsigned char* color);
+    int xprev, yprev;
     
     cimg_library::CImg<unsigned char> image;
 
-    cimg_library::CImgDisplay display;
-    
+        
     int imgHeight;
 
     int imgWidth;

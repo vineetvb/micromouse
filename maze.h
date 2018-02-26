@@ -27,7 +27,8 @@ private:
     const char downWallMask  = 0b00000001;
 
 public:
-    /** Return a reference to the node at (x,y).
+    /** 
+	Return a reference to the node at (x,y).
         The nodes are arranged in row-major order from bottom-left node
         which is the origin at (0,0), X-axis points right, Y axis
         points up.
@@ -54,21 +55,15 @@ public:
 
     void makeBoundaryWalls(void);
 
+    // To be removed
     std::string drawCell(int x, int y);
-    void drawCellImage(cimg_library::CImg<unsigned char>& img, int x, int y, unsigned char const* color) const;
-
     void draw(bool drawMouse = true);
-
-    void drawImage(cimg_library::CImg<unsigned char>& img, bool drawMouse = true) const;
-
-    void drawMouse(cimg_library::CImg<unsigned char>& img) const;
 
     /// Return the number of cells along one dimension
     int getSize(void) const  {return size;};
 
-    /**
-       Places mouse physically in the maze.
-       Default location is wherever the input mouse is designed to start from.
+    /** Places mouse physically in the maze.
+	Default location is wherever the input mouse is designed to start from.
     */
     void addMouse(Mouse const* mouseIn);
 

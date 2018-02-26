@@ -2,6 +2,7 @@
 #include "sensor.h"
 #include <thread>
 
+//ToDo: check std cmath methods
 float deg2rad(int deg)
 {
     return M_PI * (static_cast<float>(deg) / 180.0);
@@ -146,8 +147,6 @@ void Mouse::updateTf()
     Tf[3] = std::cos(deg2rad(ctheta));
 }
 
-
-
 // populates the sensor readings array with the latest data
 void Mouse::readSensors(Maze const* refMaze)
 {
@@ -167,8 +166,11 @@ void Mouse::setAlgorithm(Algorithm * algo)
 // runs algorithm in infinite loop
 void Mouse::start(Maze const* refMaze, Simulation * sim)
 {
-    sim->render(refMaze);
+    // Render the maze once
+    if (sim)
+        sim->render(refMaze);
 
+    // while the mouse is moving keep updating the mouse position
     while (!sim->display.is_closed())
     {
         readSensors(refMaze);
@@ -177,7 +179,7 @@ void Mouse::start(Maze const* refMaze, Simulation * sim)
 
         if (sim)
         {
-            sim->render(refMaze);
+            sim->render(this);
         }
 
         std::this_thread::sleep_for(std::chrono::milliseconds(100));
