@@ -41,7 +41,7 @@ int main()
 
     // Create the Simulation object
     // Simulation display size is currently fixed to 144x144
-    Simulation sim(144, 144, 3);
+    Simulation sim(582, 582, 1);
 
     // Start maze simulation
     mouse.start(&maze, &sim);

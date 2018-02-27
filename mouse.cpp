@@ -13,7 +13,7 @@ Mouse::Mouse(void): cx(0), cy(0), ctheta(90)
 {
     updateTf();
     internalMaze = new Maze(16);
-    internalMaze->mouse = this;
+    //internalMaze->mouse = this;
     internalMaze->makeBoundaryWalls();
 
     // Add three sensors
@@ -184,6 +184,6 @@ void Mouse::start(Maze const* refMaze, Simulation * sim)
             sim->render(this);
             sim->scaleAndDisplay();
         }
-        std::this_thread::sleep_for(std::chrono::milliseconds(100));
+        std::this_thread::sleep_for(std::chrono::milliseconds(1));
     }
 }

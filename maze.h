@@ -71,11 +71,12 @@ public:
     /** Places mouse physically in the maze.
 	Default location is wherever the input mouse is designed to start from.
     */
-    void addMouse(Mouse const* mouseIn);
+    void addMouse(Mouse * mouseIn);
 
     Maze(int _size);
 
-    Mouse const* mouse;
+    // cannot change mouse once added
+    //Mouse *  mouse;
 
 
 };

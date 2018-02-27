@@ -183,14 +183,16 @@ void Maze::fromMazeFile(const std::string& mazeFileName)
 
 
 /* Member functions for physical interaction with a Mouse */
-void Maze::addMouse(Mouse const* mouseIn)
+void Maze::addMouse(Mouse * mouseIn)
 {
-    this->mouse = mouseIn;
+    //mouse = mouseIn;
+    //mouse->internalMaze = new Maze(this->size);
+    //mouse->internalMaze->makeBoundaryWalls();
 };
 
 
 /* Member Functions that help to visualize */
-std::string Maze::drawCell(int x, int y)
+/*std::string Maze::drawCell(int x, int y)
 {
     std::string s ="";
 
@@ -237,4 +239,4 @@ void Maze::draw(bool drawMouse)
     }
 
     std::cout << mazeStr << std::endl;
-}
+    }*/

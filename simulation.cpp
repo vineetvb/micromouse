@@ -6,11 +6,13 @@ using namespace cimg_library;
 // helper function to draw cells when rendering maze
 void Simulation::render(Maze const* maze, int x, int y, const unsigned char* color)
 {
-    int xl = std::max(0, 8 * x);
-    int xr = xl + 8;
+    int bs = 30;
 
-    int yt = (15 - y) * 8;
-    int yb = yt + 8;
+    int xl = bs * x;
+    int xr = xl + bs;
+
+    int yt = (15 - y) * bs;
+    int yb = yt + bs;
 
     if (maze->getUpWall(x, y))
         image.draw_line(xl, yt, xr, yt, color);
@@ -60,8 +62,9 @@ void Simulation::render(Mouse const* mouse)
 
     // Now start drawing the mouse for this render
     // (xc, yc) is the topleft pixel of the 3xx mouse image
-    xc = 8*mouse->getX() + 4 - 1;
-    yc = 8*(15 - mouse->getY()) + 4 - 1;
+    int bs = 30;
+    xc = bs*mouse->getX() + bs/2 - 1;
+    yc = bs*(15 - mouse->getY()) + bs/2 - 1;
 
     for (int i = 0; i < 3; ++i)
     {
@@ -94,6 +97,7 @@ void Simulation::render(Mouse const* mouse)
 
 void Simulation::scaleAndDisplay()
 {
-    CImg<unsigned char> imageScaled = image.get_resize(imgHeight*imgScale, imgWidth*imgScale);
-    imageScaled.display(display);
+    //CImg<unsigned char> imageScaled = image.get_resize(imgHeight*imgScale, imgWidth*imgScale);
+    image.display(display);
 }
+
