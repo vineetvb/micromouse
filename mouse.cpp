@@ -12,8 +12,7 @@ float deg2rad(int deg)
 Mouse::Mouse(void): cx(0), cy(0), ctheta(90)
 {
     updateTf();
-    internalMaze = new Maze(16);
-    //internalMaze->mouse = this;
+    internalMaze = new FloodMaze(MAZESIZE);
     internalMaze->makeBoundaryWalls();
 
     // Add three sensors

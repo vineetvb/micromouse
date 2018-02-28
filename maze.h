@@ -8,9 +8,8 @@ class Mouse;
 
 class Maze
 {
-private:
-    int size;
 
+private:
     // Maze is represented as set of cells/node. Each node can be
     // 4-connected with its neighbors. The last 4 bits of the char
     // value store its LRUD connectivity as 0b0000LRUD.
@@ -26,6 +25,9 @@ private:
     const char rightWallMask = 0x02 ;
     const char upWallMask    = 0x01 ;
     const char downWallMask  = 0x04 ;
+
+protected:
+    int size;
 
 public:
     /**
@@ -69,14 +71,30 @@ public:
     /** Places mouse physically in the maze.
 	Default location is wherever the input mouse is designed to start from.
     */
-    void addMouse(Mouse * mouseIn);
+    //void addMouse(Mouse * mouseIn);
 
     Maze(int _size);
 
-    // cannot change mouse once added
-    //Mouse *  mouse;
-
-
 };
+
+class FloodMaze : public Maze
+{
+public:
+    FloodMaze(int _size): Maze(_size)
+    {
+        std::cout << "Creating Flood Maze of size: " << size << std::endl;
+        floodVal = std::unique_ptr<int[]>(new int[size * size]());
+        for (int i =0; i < size*size; ++i)
+        {
+            floodVal.get()[i] = 0;
+        }
+    }
+
+    int& operator()(int x, int y);
+
+private:
+    std::unique_ptr<int[]> floodVal;
+};
+
 
 #endif

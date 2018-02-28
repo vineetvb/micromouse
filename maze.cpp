@@ -59,6 +59,8 @@ char& Maze::at(int x, int y) const
 void Maze::setLeftWall(int x, int y)
 {
     setBits(at(x, y), leftWallMask);
+    if(x>0)
+        setBits(at(x - 1, y), rightWallMask);
 }
 
 char Maze::getLeftWall(int x, int y) const
@@ -69,6 +71,8 @@ char Maze::getLeftWall(int x, int y) const
 void Maze::setRightWall(int x, int y)
 {
     setBits(at(x, y), rightWallMask);
+    if (x < size - 1)
+        setBits(at(x + 1, y), leftWallMask);
 }
 
 char Maze::getRightWall(int x, int y) const
@@ -79,6 +83,8 @@ char Maze::getRightWall(int x, int y) const
 void Maze::setUpWall(int x, int y)
 {
     setBits(at(x, y), upWallMask);
+    if ( y < size - 1)
+        setBits(at(x, y + 1), downWallMask);
 }
 
 char Maze::getUpWall(int x, int y) const
@@ -90,6 +96,8 @@ char Maze::getUpWall(int x, int y) const
 void Maze::setDownWall(int x, int y)
 {
     setBits(at(x, y), downWallMask);
+    if (y>0)
+        setBits(at(x, y - 1), upWallMask);
 }
 
 char Maze::getDownWall(int x, int y) const
@@ -180,19 +188,16 @@ void Maze::fromMazeFile(const std::string& mazeFileName)
     }
 }
 
-
-
-/* Member functions for physical interaction with a Mouse */
-void Maze::addMouse(Mouse * mouseIn)
+int& FloodMaze::operator()(int x, int y)
 {
-    //mouse = mouseIn;
-    //mouse->internalMaze = new Maze(this->size);
-    //mouse->internalMaze->makeBoundaryWalls();
-};
+    int * a = floodVal.get();
+    return a[y*size + x];
+}
+
 
 
 /* Member Functions that help to visualize */
-/*std::string Maze::drawCell(int x, int y)
+std::string Maze::drawCell(int x, int y)
 {
     std::string s ="";
 
@@ -231,12 +236,5 @@ void Maze::draw(bool drawMouse)
         mazeStr += "\n";
     }
 
-    if(drawMouse)
-    {
-        int x = mouse->getX(), y = size - 1 -mouse->getY();
-        int pos = 2 * size * y + y + 2 * x;
-        mazeStr.at(pos) = mazeStr.at(pos)=='_' ? 'E' : 'F';
-    }
-
     std::cout << mazeStr << std::endl;
-    }*/
+}

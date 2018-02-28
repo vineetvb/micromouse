@@ -15,15 +15,15 @@ class Simulation
 {
 public:
   Simulation()
-   {
+  {
        imgHeight = (CELLWIDTH_MM * MAZESIZE) / MMPERPIXEL + 50;
        imgWidth = (CELLWIDTH_MM * MAZESIZE) / MMPERPIXEL + 50;
        imgScale = 1;
        image = cimg_library::CImg<unsigned char>(imgHeight, imgWidth, 1, 3, 0);
        image.fill(0);
-       xprev = 0; // todo
+       xprev = 0;
        yprev = 0;
-    };
+  };
 
     void render(Maze const * maze);
 
