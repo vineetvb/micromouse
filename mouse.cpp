@@ -159,7 +159,7 @@ void Mouse::readSensors(Maze const* refMaze)
 void Mouse::setAlgorithm(Algorithm * algo)
 {
     algorithm = algo;
-    static_cast<RandomExplorerAlgorithm *>(algorithm)->mouse = this;
+    algorithm->mouse = this;
 }
 
 
@@ -184,6 +184,6 @@ void Mouse::start(Maze const* refMaze, Simulation * sim)
             sim->render(this);
             sim->scaleAndDisplay();
         }
-        std::this_thread::sleep_for(std::chrono::milliseconds(1));
+        std::this_thread::sleep_for(std::chrono::milliseconds(16));
     }
 }

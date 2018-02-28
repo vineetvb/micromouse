@@ -6,13 +6,23 @@
 #include <cimg/CImg.h>
 class Maze;
 
+#define MMPERPIXEL 6
+#define CELLWIDTH_MM 180 // Each square cell is 18 cm
+#define POSTWIDTH_MM 12
+#define MOUSEWIDTH_MM 60 // only square mouse is supported currently
+
 class Simulation
 {
 public:
-    Simulation(int h, int w, int _scale):imgHeight(h), imgWidth(w), imgScale(_scale)
-    {
-        image = cimg_library::CImg<unsigned char>(imgHeight, imgWidth, 1, 3, 0);
-	image.fill(0);
+  Simulation()
+   {
+       imgHeight = (CELLWIDTH_MM * MAZESIZE) / MMPERPIXEL + 50;
+       imgWidth = (CELLWIDTH_MM * MAZESIZE) / MMPERPIXEL + 50;
+       imgScale = 1;
+       image = cimg_library::CImg<unsigned char>(imgHeight, imgWidth, 1, 3, 0);
+       image.fill(0);
+       xprev = 11; // todo
+       yprev = 11;
     };
 
     void render(Maze const * maze);
@@ -24,7 +34,7 @@ public:
 
     void scaleAndDisplay();
     
- private:
+    // private:
     // helper method that draws cell, should probably be private
     void render(Maze const* maze, int x, int y, const unsigned char* color);
     int xprev, yprev;

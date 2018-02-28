@@ -2,10 +2,9 @@
 #define MAZE_H_
 #include <memory>
 
+#define MAZESIZE 16
 #include "mouse.h"
-
 #include <cimg/CImg.h>
-
 class Mouse;
 
 class Maze

@@ -12,6 +12,7 @@ class Algorithm
 public:
     //Algorithm();
     virtual const CommandI process() = 0;
+    const Mouse * mouse;
 };
 
 
@@ -27,12 +28,15 @@ public:
 
     const CommandI process();
 
-    const Mouse * mouse;
-
     std::uniform_int_distribution<> dis;
     std::mt19937 gen;
 
 };
+
+class FloodFillExplorationAlgorithm : public Algorithm
+{
+};
+
 
 
 

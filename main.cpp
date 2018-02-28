@@ -41,9 +41,24 @@ int main()
 
     // Create the Simulation object
     // Simulation display size is currently fixed to 144x144
-    Simulation sim(582, 582, 1);
+    Simulation sim;
 
-    // Start maze simulation
+    sim.render(&maze);
+    
+    const unsigned char green[] = {50, 50, 50};
+    const unsigned char black[] = {0, 0, 0};
+    //sim.image.draw_text(3, 3, "824", green, black, 1.0f, 13);
+
+    sim.scaleAndDisplay();
+
+    sim.image.save_bmp("/home/vbhatawadekar/code/micromouse/maze.bmp");
+    
+
+    //while (!sim.display.is_closed())
+    {
+    }
+    
+    // Start maze simulation*/
     mouse.start(&maze, &sim);
 
     return 0;
