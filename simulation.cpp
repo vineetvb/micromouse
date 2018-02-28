@@ -8,7 +8,7 @@ void Simulation::render(Maze const* maze, int x, int y, const unsigned char* col
 {
     int pixelScale = CELLWIDTH_MM / MMPERPIXEL;
     int postSizePixels = POSTWIDTH_MM / MMPERPIXEL;
-    
+
     int xl = pixelScale * x;
     int xr = xl + pixelScale;
 
@@ -22,7 +22,7 @@ void Simulation::render(Maze const* maze, int x, int y, const unsigned char* col
             image.draw_line(xl, yt + i, xr, yt + i, color);
         }
     }
-    
+
     if (maze->getLeftWall(x, y))
     {
         for (int i = 0; i < postSizePixels; ++i)
@@ -30,7 +30,7 @@ void Simulation::render(Maze const* maze, int x, int y, const unsigned char* col
             image.draw_line(xl + i, yt, xl + i, yb, color);
         }
     }
-    
+
     // Draw the post in the bottom left corner
     for ( int i = 0; i < postSizePixels; ++i)
     {
@@ -39,7 +39,7 @@ void Simulation::render(Maze const* maze, int x, int y, const unsigned char* col
             image(xl + i, yt + j, 0) = 250;
         }
     }
-    
+
 }
 
 void Simulation::render(Maze const* maze)
@@ -61,7 +61,7 @@ void Simulation::render(Maze const* maze)
     }
 
     int size = maze->getSize();
-    
+
     for (int x = 0; x < size; ++x)
     {
         for (int y = size - 1; y >=0; y--)
@@ -69,7 +69,7 @@ void Simulation::render(Maze const* maze)
             render(maze, x, y, red);
         }
     }
-    
+
     // draw South wall
     int xl = 0;
     int xr = MAZESIZE * pixelScale;
@@ -84,18 +84,18 @@ void Simulation::render(Maze const* maze)
     int x = MAZESIZE*pixelScale;
 
     for (int i = 0; i < postSizePixels; ++i)
-        image.draw_line(x + i, yt, x + i, yb, red);    
-    
+        image.draw_line(x + i, yt, x + i, yb, red);
+
 }
 
 void Simulation::render(Mouse const* mouse)
 {
     int mouseWidthPixels = MOUSEWIDTH_MM / MMPERPIXEL;
     int pixelScale = CELLWIDTH_MM / MMPERPIXEL;
-    
+
     // first erase the pixels from the previous render
-    int xc = xprev;
-    int yc = yprev;
+    int xc = pixelScale*xprev + pixelScale/2 - mouseWidthPixels/2  + 1;
+    int yc = pixelScale*(MAZESIZE - 1 - yprev) + pixelScale/2 - mouseWidthPixels/2  + 1;
     // ToDO: check block erase
     for (int i = 0; i < mouseWidthPixels; ++i)
     {
@@ -107,10 +107,10 @@ void Simulation::render(Mouse const* mouse)
     }
 
     // Now start drawing the mouse for this render
-    // (xc, yc) is the topleft pixel of the 3xx mouse image    
+    // (xc, yc) is the topleft pixel of the 3xx mouse image
     xc = pixelScale*mouse->getX() + pixelScale/2 - mouseWidthPixels/2  + 1;
     yc = pixelScale*(MAZESIZE - 1 - mouse->getY()) + pixelScale/2 - mouseWidthPixels/2  + 1;
-    
+
     for (int i = 0; i < mouseWidthPixels; ++i)
     {
         for (int j = 0; j < mouseWidthPixels; ++j)
@@ -135,9 +135,9 @@ void Simulation::render(Mouse const* mouse)
         break;
     }
 
-    xprev = xc;
-    yprev = yc;
-    
+    xprev = mouse->getX();
+    yprev = mouse->getY();
+
 }
 
 void Simulation::scaleAndDisplay()

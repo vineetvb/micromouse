@@ -1,27 +1,6 @@
 #ifndef COMMAND_H_
 #define COMMAND_H_
 
-/*
-class DriveCommand
-{
-}
-
-StepCommand
-
-InPlaceLeftCommand
-
-InPlaceRightCommand
-
-InPlaceFlipCommand
-
-
-Mouse Interface
-
-mouse.execute(StepCommand);
-
-
-*/
-
 class Command
 {
 public:

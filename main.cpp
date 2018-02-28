@@ -28,7 +28,7 @@ int main()
     int mazeSize = 16;
     Maze maze(mazeSize);
     maze.makeBoundaryWalls();
-    maze.fromMazeFile("/home/vbhatawadekar/code/micromouse/hoku4.maz");
+    maze.fromMazeFile("/home/vineet/code/micromouse/mazefiles/hoku4.maz");
     // Make a mouse
     Mouse mouse;
 
@@ -44,20 +44,20 @@ int main()
     Simulation sim;
 
     sim.render(&maze);
-    
+
     const unsigned char green[] = {50, 50, 50};
     const unsigned char black[] = {0, 0, 0};
     //sim.image.draw_text(3, 3, "824", green, black, 1.0f, 13);
 
     sim.scaleAndDisplay();
 
-    sim.image.save_bmp("/home/vbhatawadekar/code/micromouse/maze.bmp");
-    
+    sim.image.save_bmp("/home/vineet/code/micromouse/maze.bmp");
+
 
     //while (!sim.display.is_closed())
     {
     }
-    
+
     // Start maze simulation*/
     mouse.start(&maze, &sim);
 

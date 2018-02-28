@@ -21,8 +21,8 @@ public:
        imgScale = 1;
        image = cimg_library::CImg<unsigned char>(imgHeight, imgWidth, 1, 3, 0);
        image.fill(0);
-       xprev = 11; // todo
-       yprev = 11;
+       xprev = 0; // todo
+       yprev = 0;
     };
 
     void render(Maze const * maze);
@@ -33,22 +33,22 @@ public:
     cimg_library::CImgDisplay display;
 
     void scaleAndDisplay();
-    
+
     // private:
     // helper method that draws cell, should probably be private
     void render(Maze const* maze, int x, int y, const unsigned char* color);
     int xprev, yprev;
-    
+
     cimg_library::CImg<unsigned char> image;
 
-        
+
     int imgHeight;
 
     int imgWidth;
 
     int imgScale;
-    
-  
+
+
 };
 
 #endif

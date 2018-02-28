@@ -4,7 +4,6 @@
 
 #define MAZESIZE 16
 #include "mouse.h"
-#include <cimg/CImg.h>
 class Mouse;
 
 class Maze
@@ -29,7 +28,7 @@ private:
     const char downWallMask  = 0x04 ;
 
 public:
-    /** 
+    /**
 	Return a reference to the node at (x,y).
         The nodes are arranged in row-major order from bottom-left node
         which is the origin at (0,0), X-axis points right, Y axis
