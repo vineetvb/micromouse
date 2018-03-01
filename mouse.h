@@ -27,7 +27,7 @@ private:
     Maze* internalMaze;
 
     // Algorithm used to move in the maze
-    //Algorithm * algorithm;
+    Algorithm * algorithm;
 
     void readWalls();
 
@@ -44,6 +44,12 @@ private:
     // Intended to be private. To be used with the appropriate Command interface
     bool advance(float theta, float x, Maze const* refMaze);
 
+    // writes an individual sensor's output to the internal maze
+    void writeSensorData(bool data, int theta);
+
+    // Reads current sensorOutputs and updates the internal rep of maze
+    void updateInternalMaze();
+
     //current x,y, theta position
     // This mouse only supports integer coords
     int cx, cy, ctheta;
@@ -54,7 +60,6 @@ private:
     std::vector<Sensor> sensors;
     std::vector<bool> sensorOutputs;
 
-    Algorithm * algorithm;
  public:
     Mouse(void);
 

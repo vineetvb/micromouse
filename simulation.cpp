@@ -42,9 +42,8 @@ void Simulation::render(Maze const* maze, int x, int y, const unsigned char* col
 
 }
 
-void Simulation::render(Maze const* maze)
+void Simulation::render(Maze const* maze, const unsigned char* color)
 {
-    const unsigned char red[] = {180, 10, 20 };
     const unsigned char gray[] = {20, 20, 20 };
 
     int pixelScale = CELLWIDTH_MM / MMPERPIXEL;
@@ -66,7 +65,7 @@ void Simulation::render(Maze const* maze)
     {
         for (int y = size - 1; y >=0; y--)
         {
-            render(maze, x, y, red);
+            render(maze, x, y, color);
         }
     }
 
@@ -76,7 +75,7 @@ void Simulation::render(Maze const* maze)
     int y = MAZESIZE * pixelScale;
 
     for (int i = 0; i < postSizePixels; ++i)
-        image.draw_line(xl, y + i, xr, y + i, red);
+        image.draw_line(xl, y + i, xr, y + i, color);
 
     // draw East wall
     int yb = MAZESIZE*pixelScale;
@@ -84,7 +83,7 @@ void Simulation::render(Maze const* maze)
     int x = MAZESIZE*pixelScale;
 
     for (int i = 0; i < postSizePixels; ++i)
-        image.draw_line(x + i, yt, x + i, yb, red);
+        image.draw_line(x + i, yt, x + i, yb, color);
 
 }
 

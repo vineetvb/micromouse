@@ -95,7 +95,7 @@ int main()
     // Simulation display size is currently fixed to 144x144
     Simulation sim;
 
-    sim.render(&maze);
+    //sim.render(&maze);
 
     const unsigned char green[] = {50, 50, 50};
     const unsigned char black[] = {0, 0, 0};

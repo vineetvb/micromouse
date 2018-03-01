@@ -25,7 +25,7 @@ public:
        yprev = 0;
   };
 
-    void render(Maze const * maze);
+    void render(Maze const * maze, const unsigned char * color);
 
     // store coords of previous render to erase before calling this render
     void render(Mouse const* mouse);

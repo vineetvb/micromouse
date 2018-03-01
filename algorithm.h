@@ -35,6 +35,7 @@ public:
 
 class FloodFillExplorationAlgorithm : public Algorithm
 {
+
 };
 
 

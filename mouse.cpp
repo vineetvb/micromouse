@@ -161,14 +161,59 @@ void Mouse::setAlgorithm(Algorithm * algo)
     algorithm->mouse = this;
 }
 
+void Mouse::writeSensorData(bool data, int theta)
+{
+    // angle of the sensor relative to the maze
+    int sensTheta = (ctheta + theta + 360) % 360;
+    std::cout << sensTheta << std::endl;
+    if(data)
+    {
+        if (sensTheta == 0) // facing RIGHT
+        {
+            internalMaze->setRightWall(cx, cy);
+        }
+
+        if (sensTheta == 90 ) // facing UP
+        {
+            internalMaze->setUpWall(cx, cy);
+        }
+
+        if (sensTheta == 180) // facing LEFT
+        {
+            internalMaze->setLeftWall(cx, cy);
+        }
+
+        if (sensTheta == 270) // facing DOWN
+        {
+            internalMaze->setDownWall(cx, cy);
+        }
+    }
+
+
+}
+
+void Mouse::updateInternalMaze()
+{
+    // angles corresponding to F,L,R
+    int angles[] = {0, 90, -90};
+
+    for (int i = 0; i < sensorOutputs.size(); ++i)
+    {
+        writeSensorData(sensorOutputs[i], angles[i]);
+    }
+}
+
 
 // runs algorithm in infinite loop
 void Mouse::start(Maze const* refMaze, Simulation * sim)
 {
+    const unsigned char red[] = {200, 20, 20 };
+    const unsigned char green[] = {20, 200, 20 };
+
     // Render the maze once
     if (sim)
     {
-        sim->render(refMaze);
+        sim->render(refMaze, red);
         sim->scaleAndDisplay();
     }
 
@@ -176,13 +221,19 @@ void Mouse::start(Maze const* refMaze, Simulation * sim)
     while (!sim->display.is_closed())
     {
         readSensors(refMaze);
+        updateInternalMaze();
+
         const CommandI c = algorithm->process();
         this->executeCommand(&c, refMaze);
+
         if (sim)
         {
             sim->render(this);
+            sim->render(internalMaze, green);
+//            internalMaze->draw();
             sim->scaleAndDisplay();
         }
-        std::this_thread::sleep_for(std::chrono::milliseconds(16));
+
+        std::this_thread::sleep_for(std::chrono::milliseconds(10));
     }
 }
