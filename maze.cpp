@@ -188,14 +188,6 @@ void Maze::fromMazeFile(const std::string& mazeFileName)
     }
 }
 
-int& FloodMaze::operator()(int x, int y)
-{
-    int * a = floodVal.get();
-    return a[y*size + x];
-}
-
-
-
 /* Member Functions that help to visualize */
 std::string Maze::drawCell(int x, int y)
 {
@@ -219,7 +211,6 @@ std::string Maze::drawCell(int x, int y)
     return s;
 }
 
-
 void Maze::draw(bool drawMouse)
 {
     std::cout << std::string(size*2 - 1, '_') << std::endl;
@@ -237,4 +228,69 @@ void Maze::draw(bool drawMouse)
     }
 
     std::cout << mazeStr << std::endl;
+}
+
+/* Flood Maze Class */
+
+int& FloodMaze::operator()(int x, int y)
+{
+    int * a = floodVal.get();
+    return a[y*size + x];
+}
+
+#include <queue>
+
+void FloodMaze::flood()
+{
+    std::queue<Node> q;
+    Node goal(xGoal, yGoal, 0);
+    q.push(goal);
+
+    std::vector<int> visited(size*size, 0);
+
+    while(!q.empty())
+    {
+
+        Node n = q.front(); q.pop();
+        visited[n.y * size + n.x] = 1;
+
+        // e is the explored node
+
+        // Top Neighbor is accesible, and not visited
+        if (!getUpWall(n.x, n.y) && visited[(n.y + 1) * size + n.x]==0)
+        {
+            Node e(n.x, n.y + 1, n.val + 1);
+            visited[e.y * size + e.x] = 1;
+            q.push(e);
+            this->operator()(e.x, e.y) = n.val + 1;
+        }
+
+        // Left Neighbor is accesible, and not visited
+        if (!getLeftWall(n.x, n.y) && visited[n.y * size + (n.x - 1)]==0)
+        {
+            Node e(n.x - 1, n.y, n.val + 1);
+            visited[e.y * size + e.x] = 1;
+            q.push(e);
+            this->operator()(e.x, e.y) = n.val + 1;
+        }
+
+        // Bottom Neighbor is accesible, and not visited
+        if (!getDownWall(n.x, n.y) && visited[(n.y - 1) * size + n.x]==0)
+        {
+            Node e(n.x, n.y - 1, n.val + 1);
+            visited[e.y * size + e.x] = 1;
+            q.push(e);
+            this->operator()(e.x, e.y) = n.val + 1;
+        }
+
+        // Right Neighbor is accesible, and not visited
+        if (!getRightWall(n.x, n.y) && visited[n.y * size + (n.x + 1)]==0)
+        {
+            Node e(n.x + 1, n.y, n.val + 1);
+            visited[e.y * size + e.x] = 1;
+            q.push(e);
+            this->operator()(e.x, e.y) = n.val + 1;
+        }
+    }
+
 }

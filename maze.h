@@ -77,6 +77,18 @@ public:
 
 };
 
+struct Node
+{
+    int x, y, val;
+    Node(int _x, int _y, int _val): x(_x), y(_y), val(_val)
+        {
+        };
+    Node(): x(0), y(0), val(0){};
+
+};
+
+
+
 class FloodMaze : public Maze
 {
 public:
@@ -88,12 +100,23 @@ public:
         {
             floodVal.get()[i] = 0;
         }
+        xGoal = (size-1)/2;
+        yGoal = (size-1)/2;
     }
+
+    void setXGoal(int x) {xGoal = x;};
+    void setYGoal(int y) {yGoal = y;};
 
     int& operator()(int x, int y);
 
+    void flood();
+
+
 private:
     std::unique_ptr<int[]> floodVal;
+
+    int xGoal, yGoal;
+
 };
 
 

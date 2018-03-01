@@ -18,6 +18,41 @@
 
 #include "maze.h"
 #include "mouse.h"
+#include <iomanip>      // std::setw
+
+void testFF()
+{
+    using namespace std;
+    FloodMaze maze(4);
+    maze.makeBoundaryWalls();
+    maze.setRightWall(0,0);
+    maze.setRightWall(2,0);
+    maze.setLeftWall(3,3);
+    maze.setUpWall(1, 0);
+    maze.setRightWall(1,1);
+    maze.setDownWall(0, 2);
+    maze.setRightWall(0,3);
+    maze.setDownWall(1,3);
+    maze.setDownWall(3,2);
+    maze.setXGoal(3); maze.setYGoal(3);
+
+    cout << endl << endl;
+
+    maze.draw();
+
+    maze.flood();
+
+    for (int y = 3; y >= 0; y--)
+    {
+        for (int x = 0; x < 4; ++x)
+        {
+            cout << maze(x, y) << "    ";
+        }
+        cout << endl;
+    }
+
+}
+
 
 int main()
 {
@@ -29,6 +64,23 @@ int main()
     Maze maze(mazeSize);
     maze.makeBoundaryWalls();
     maze.fromMazeFile("/home/vineet/code/micromouse/mazefiles/hoku4.maz");
+
+    FloodMaze fmaze(mazeSize);
+    fmaze.makeBoundaryWalls();
+    fmaze.fromMazeFile("/home/vineet/code/micromouse/mazefiles/hoku4.maz");
+    fmaze.draw();
+    fmaze.setXGoal(7); fmaze.setYGoal(7);
+    fmaze.flood();
+
+    for (int y = mazeSize - 1; y >= 0; y--)
+    {
+        for (int x = 0; x < mazeSize; ++x)
+        {
+            cout << std::setw(3) << fmaze(x, y) << " | \t ";
+        }
+        cout << endl;
+    }
+
     // Make a mouse
     Mouse mouse;
 
@@ -37,7 +89,7 @@ int main()
     mouse.setAlgorithm(&explore);
 
     // Place Mouse in Maze
-    maze.addMouse(&mouse);
+    //maze.addMouse(&mouse);
 
     // Create the Simulation object
     // Simulation display size is currently fixed to 144x144
