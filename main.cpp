@@ -35,22 +35,6 @@ void testFF()
     maze.setDownWall(1,3);
     maze.setDownWall(3,2);
     maze.setXGoal(3); maze.setYGoal(3);
-
-    cout << endl << endl;
-
-    maze.draw();
-
-    maze.flood();
-
-    for (int y = 3; y >= 0; y--)
-    {
-        for (int x = 0; x < 4; ++x)
-        {
-            cout << maze(x, y) << "    ";
-        }
-        cout << endl;
-    }
-
 }
 
 
@@ -65,50 +49,23 @@ int main()
     maze.makeBoundaryWalls();
     maze.fromMazeFile("/home/vineet/code/micromouse/mazefiles/hoku4.maz");
 
-    FloodMaze fmaze(mazeSize);
-    fmaze.makeBoundaryWalls();
-    fmaze.fromMazeFile("/home/vineet/code/micromouse/mazefiles/hoku4.maz");
-    fmaze.draw();
-    fmaze.setXGoal(7); fmaze.setYGoal(7);
-    fmaze.flood();
-
-    for (int y = mazeSize - 1; y >= 0; y--)
-    {
-        for (int x = 0; x < mazeSize; ++x)
-        {
-            cout << std::setw(3) << fmaze(x, y) << " | \t ";
-        }
-        cout << endl;
-    }
-
     // Make a mouse
     Mouse mouse;
 
     // Set it explore randomly
     RandomExplorerAlgorithm explore;
-    mouse.setAlgorithm(&explore);
+    std::cout << " 1 " << std::endl;
 
-    // Place Mouse in Maze
-    //maze.addMouse(&mouse);
+    FloodFillExplorationAlgorithm ff;
+    mouse.setAlgorithm(&ff);
+
+
+    std::cout << " 3 " << std::endl;
+
 
     // Create the Simulation object
     // Simulation display size is currently fixed to 144x144
     Simulation sim;
-
-    //sim.render(&maze);
-
-    const unsigned char green[] = {50, 50, 50};
-    const unsigned char black[] = {0, 0, 0};
-    //sim.image.draw_text(3, 3, "824", green, black, 1.0f, 13);
-
-    sim.scaleAndDisplay();
-
-    sim.image.save_bmp("/home/vineet/code/micromouse/maze.bmp");
-
-
-    //while (!sim.display.is_closed())
-    {
-    }
 
     // Start maze simulation*/
     mouse.start(&maze, &sim);
