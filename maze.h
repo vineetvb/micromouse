@@ -68,22 +68,10 @@ public:
     /// Return the number of cells along one dimension
     int getSize(void) const  {return size;};
 
-    /** Places mouse physically in the maze.
-	Default location is wherever the input mouse is designed to start from.
-    */
-    //void addMouse(Mouse * mouseIn);
-
+    // Constructors
     Maze(int _size);
+    Maze(const Maze& other);
 
-};
-
-struct Node
-{
-    int x, y, val;
-    Node(int _x, int _y, int _val): x(_x), y(_y), val(_val)
-        {
-        };
-    Node(): x(0), y(0), val(0){};
 
 };
 
@@ -92,25 +80,16 @@ struct Node
 class FloodMaze : public Maze
 {
 public:
-    FloodMaze(int _size): Maze(_size)
-    {
-        std::cout << "Creating Flood Maze of size: " << size << std::endl;
-        floodVal = std::unique_ptr<int[]>(new int[size * size]());
-        for (int i =0; i < size*size; ++i)
-        {
-            floodVal.get()[i] = 0;
-        }
-        xGoal = (size-1)/2;
-        yGoal = (size-1)/2;
-    }
-
+    FloodMaze(int _size);
+    FloodMaze(const FloodMaze& other);
+    FloodMaze(const Maze& other);
     void setXGoal(int x) {xGoal = x;};
     void setYGoal(int y) {yGoal = y;};
 
     int& operator()(int x, int y);
 
     void flood();
-
+    void clear();
 
 private:
     std::unique_ptr<int[]> floodVal;

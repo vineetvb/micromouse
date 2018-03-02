@@ -2,6 +2,7 @@
 #include "maze.h"
 #include <iostream>
 #include <fstream>
+#include <queue>
 
 Maze::Maze(int _size): size(_size)
 {
@@ -12,6 +13,19 @@ Maze::Maze(int _size): size(_size)
         walls.get()[i] = 0;
     }
 }
+
+Maze::Maze(const Maze& other)
+{
+    std::cout << "Copying Maze of size: " << size << std::endl;
+    size = other.size;
+
+    walls = std::unique_ptr<char[]>(new char[size * size]());
+    for (int i =0; i < size*size; ++i)
+    {
+        walls.get()[i] = other.walls.get()[i];
+    }
+}
+
 
 
 /* Member functions used to manipulate maze walls */
@@ -230,7 +244,32 @@ void Maze::draw(bool drawMouse)
     std::cout << mazeStr << std::endl;
 }
 
+/* ********************************************** */
 /* Flood Maze Class */
+/* ********************************************** */
+
+FloodMaze::FloodMaze(int _size):Maze(_size)
+{
+    std::cout << "Creating Flood Maze of size: " << size << std::endl;
+    floodVal = std::unique_ptr<int[]>(new int[size * size]());
+    for (int i =0; i < size*size; ++i)
+    {
+        floodVal.get()[i] = 0;
+    }
+    xGoal = (size-1)/2;
+    yGoal = (size-1)/2;
+}
+
+FloodMaze::FloodMaze(const FloodMaze& other): Maze(other)
+{
+
+}
+
+FloodMaze::FloodMaze(const Maze& other): Maze(other)
+{
+
+}
+
 
 int& FloodMaze::operator()(int x, int y)
 {
@@ -238,9 +277,14 @@ int& FloodMaze::operator()(int x, int y)
     return a[y*size + x];
 }
 
-#include <queue>
+void FloodMaze::clear()
+{
+    int * a = floodVal.get();
+    for (int i = 0; i < size*size; ++i)
+        a[i] = 0;
+}
 
-void FloodMaze::flood()
+/*void FloodMaze::flood()
 {
     std::queue<Node> q;
     Node goal(xGoal, yGoal, 0);
@@ -294,3 +338,4 @@ void FloodMaze::flood()
     }
 
 }
+*/
