@@ -20,6 +20,7 @@ public:
     virtual const CommandI process() = 0;
     virtual void init() {};
     const Mouse * mouse;
+    virtual CommandI getCommand(int xD, int yD);
 };
 
 

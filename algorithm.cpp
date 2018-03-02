@@ -1,6 +1,39 @@
 
 #include "algorithm.h"
 #include <iomanip>
+#include "math_helpers.h"
+
+CommandI Algorithm::getCommand(int xD, int yD)
+{
+    int xS = mouse->getX();
+    int yS = mouse->getY();
+    float thetaS = static_cast<float>(mouse->getTheta()) * toRadians;
+    float ax = xD - xS, ay = yD - yS;
+
+    // this norm is valid only for cardinal axis movements
+    float norm = std::max( std::abs(ax), std::abs(ay) );
+    ax /= norm;
+    ay /= norm;
+
+    float bx = std::cos(thetaS), by = std::sin(thetaS);
+
+    float cval = ax * by - ay * bx; // cross product
+    float dval = ax * bx + ay * by; // dot product
+
+    float rotationAngle = std::acos(dval);
+    float sense = -1; // default is anticlockwise
+    if(cval > 0)
+    {
+        sense = 1;
+    }
+     rotationAngle *= sense;
+
+     int steps = static_cast<int>(std::round(norm));
+     int rotDegrees = static_cast<int>(std::round(rotationAngle * toDegrees));
+
+     return CommandI(rotDegrees, steps);
+}
+
 
 const CommandI RandomExplorerAlgorithm::process()
 {
@@ -65,26 +98,25 @@ void FloodFillExplorationAlgorithm::updateMazeNode(MazeNode& e, MazeNode&n, std:
 
 void FloodFillExplorationAlgorithm::flood()
 {
-
+    std::fill(visited.begin(), visited.end(), 0);
     std::queue<MazeNode> q;
     MazeNode goal(xGoal, yGoal, 0);
     q.push(goal);
 
     while(!q.empty())
     {
-
         MazeNode n = q.front(); q.pop();
-
-
         visited[n.y * size + n.x] = 1;
-
-        // e is the explored node
-
+        
+        bool nbrFound = false;
+        // e is the explored neighbor that is pushed to the queue if
+        // it is accessible
         // Top Neighbor is accesible, and not visited
         if (!maze->getUpWall(n.x, n.y) && visited[(n.y + 1) * size + n.x]==0)
         {
             MazeNode e(n.x, n.y + 1, n.val + 1);
             updateMazeNode(e, n, q);
+            nbrFound = true;
         }
 
         // Left Neighbor is accesible, and not visited
@@ -92,6 +124,7 @@ void FloodFillExplorationAlgorithm::flood()
         {
             MazeNode e(n.x - 1, n.y, n.val + 1);
             updateMazeNode(e, n, q);
+            nbrFound = true;
         }
 
         // Bottom Neighbor is accesible, and not visited
@@ -99,6 +132,7 @@ void FloodFillExplorationAlgorithm::flood()
         {
             MazeNode e(n.x, n.y - 1, n.val + 1);
             updateMazeNode(e, n, q);
+            nbrFound = true;
         }
 
         // Right Neighbor is accesible, and not visited
@@ -106,15 +140,18 @@ void FloodFillExplorationAlgorithm::flood()
         {
             MazeNode e(n.x + 1, n.y, n.val + 1);
             updateMazeNode(e, n, q);
+            nbrFound = true;
+        }
+
+        if(nbrFound==false)
+        {
         }
     }
-
 }
 
 void FloodFillExplorationAlgorithm::show()
 {
     using namespace std;
-
     for(int y = size - 1; y >=0; y--)
     {
         for (int x = 0; x < size; ++x)
@@ -130,7 +167,7 @@ void FloodFillExplorationAlgorithm::backtrack(std::vector<MazeNode>& path)
 {
     int xC = mouse->getX(), yC = mouse->getY();
     int xN, yN;
-
+    
     while(true)
     {
         path.push_back(MazeNode(xC, yC, floodVal[yC*size + xC]) );
@@ -152,7 +189,7 @@ void FloodFillExplorationAlgorithm::backtrack(std::vector<MazeNode>& path)
         }
 
         xN = xC - 1; yN = yC;
-        // Leftp neighbor is 1 step away, and accesible
+        // Left neighbor is 1 step away, and accesible
         if ( !maze->getLeftWall(xC, yC)
              && (floodVal[yC*size + xC] - floodVal[yN*size + xN]  == 1 )
            )
@@ -189,12 +226,9 @@ void FloodFillExplorationAlgorithm::backtrack(std::vector<MazeNode>& path)
 const CommandI FloodFillExplorationAlgorithm::process()
 {
     flood();
-    show();
+    //show();
     std::vector<MazeNode> path;
     backtrack(path);
-    for (auto& n: path)
-    {
-        std::cout << n.x << ", " << n.y << std::endl;
-    }
-    return CommandI(0, 0);
+    return getCommand(path[1].x, path[1].y);
 }
+

@@ -218,25 +218,34 @@ void Mouse::start(Maze const* refMaze, Simulation * sim)
         sim->scaleAndDisplay();
     }
 
+    bool goalReached = false;
+    
     // while the mouse is moving keep updating the mouse position
-    while (!sim->display.is_closed())
+    while (!sim->display.is_closed() || goalReached)
     {
-
         readSensors(refMaze);
 
         updateInternalMaze();
 
-        const CommandI c = algorithm->process();
-
-        this->executeCommand(&c, refMaze);
-
         if (sim)
         {
             sim->render(this);
-            sim->render(internalMaze, green);
+            sim->render(getInternalMaze(), green);
             sim->scaleAndDisplay();
+            sim->saveBMP();
         }
 
+        const CommandI c = algorithm->process();
+
+        this->executeCommand(&c, refMaze);
+        
         std::this_thread::sleep_for(std::chrono::milliseconds(10));
+
+        if (cx == 7 && cy == 7)
+        {
+            goalReached = true;
+            std::cout << "goalReached" << std::endl;
+            break;
+        }    
     }
 }

@@ -136,10 +136,27 @@ void Simulation::render(Mouse const* mouse)
 
     xprev = mouse->getX();
     yprev = mouse->getY();
-
 }
+
+void Simulation::saveBMP(std::string& fileName)
+{
+    image.save_bmp(fileName.c_str());
+}
+
+void Simulation::saveBMP()
+{
+    char buff[120];
+    snprintf(buff, sizeof(buff), "%05d", Simulation::frameNumber);
+    std::string fileName = buff;
+    image.save_bmp( (fileName + ".bmp").c_str());
+    Simulation::frameNumber++;
+}
+
+    
+
 
 void Simulation::scaleAndDisplay()
 {
+    
     image.display(display);
 }
