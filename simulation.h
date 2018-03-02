@@ -34,6 +34,9 @@ public:
 
     void scaleAndDisplay();
 
+    void saveBMP(std::string& fileName);
+    void saveBMP();
+
     // private:
     // helper method that draws cell, should probably be private
     void render(Maze const* maze, int x, int y, const unsigned char* color);
@@ -48,6 +51,7 @@ public:
 
     int imgScale;
 
+    static int frameNumber;
 
 };
 

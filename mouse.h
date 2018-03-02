@@ -69,12 +69,7 @@ private:
 
     const std::vector<bool> getSensorState() const {return sensorOutputs;};
 
-    Maze * getInternalMaze() const {
-
-        std::cout << " # " << std::endl;
-
-        return internalMaze;
-    };
+    Maze * getInternalMaze() const { return internalMaze; };
 
     int getX() const {return cx;}
     int getY() const {return cy;}
