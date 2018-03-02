@@ -126,7 +126,7 @@ void FloodFillExplorationAlgorithm::show()
     cout << endl;
 }
 
-void FloodFillExplorationAlgorithm::backtrack(vector<MazeNode>& path)
+void FloodFillExplorationAlgorithm::backtrack(std::vector<MazeNode>& path)
 {
     int xC = mouse->getX(), yC = mouse->getY();
     int xN, yN;
@@ -190,7 +190,11 @@ const CommandI FloodFillExplorationAlgorithm::process()
 {
     flood();
     show();
-    vector<MazeNode> path;
+    std::vector<MazeNode> path;
     backtrack(path);
+    for (auto& n: path)
+    {
+        std::cout << n.x << ", " << n.y << std::endl;
+    }
     return CommandI(0, 0);
 }
