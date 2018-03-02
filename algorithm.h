@@ -63,7 +63,7 @@ public:
 
     void show();
 
-    void backtrack();
+    void backtrack(std::vector<MazeNode>& path);
 
     virtual void init();
 
