@@ -128,9 +128,6 @@ void Simulation::render(Mouse const* mouse)
         mouseImage = orientedMouseArt[1];
         break;
     }
-
-    std::cout << mouseImage.height() << " mouse img " << mouseImage.width() << std::endl;
-    std::cout << "MWP " << mouseWidthPixels << std::endl;
     
     for (int i = 0; i < mouseWidthPixels; ++i)
     {
@@ -141,22 +138,6 @@ void Simulation::render(Mouse const* mouse)
             image(xc + i, yc + j, 2) = mouseImage(i, j, 2);
         }
     }
-    /*
-    switch(mouse->getTheta())
-    {
-    case 0:
-        image(xc + 2, yc + 1, 1) = 250;
-        break;
-    case 90:
-        image(xc + 1, yc, 1) = 250;
-        break;
-    case 180:
-        image(xc, yc + 1, 1) = 250;
-        break;
-    case 270:
-        image(xc + 1, yc + 2, 1) = 250;
-        break;
-        }*/
 
     xprev = mouse->getX();
     yprev = mouse->getY();
@@ -164,20 +145,11 @@ void Simulation::render(Mouse const* mouse)
 
 void Simulation::readMouseArt(std::string const& fileName)
 {
-    cimg_library::CImg<unsigned char> img(fileName.c_str()) ;
-    std::cout << img.height() << " img " << img.width() << std::endl;
-    
+    cimg_library::CImg<unsigned char> img(fileName.c_str()) ;    
     for (int i = 0; i < 4; ++i)
     {
         orientedMouseArt.push_back(img.get_rotate(90*i));
-    }
-
-    orientedMouseArt[0].save_bmp("0.bmp");
-    orientedMouseArt[1].save_bmp("1.bmp");
-    orientedMouseArt[2].save_bmp("2.bmp");
-
-
-            
+    }       
 }
 
 
@@ -200,6 +172,5 @@ void Simulation::saveBMP()
 
 void Simulation::scaleAndDisplay()
 {
-    
     image.display(display);
 }
