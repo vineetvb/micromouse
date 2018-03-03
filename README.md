@@ -7,7 +7,8 @@
 - Configure your mouse with multiple wall detection sensors
 - Default maze navigation and maze solving algorithms
   - Plug in your own algorithms
-  
+
+![MouseRun](https://raw.githubusercontent.com/vineetvb/micromouse/floodfill/artwork/anim.gif)
 
 ## Quick start
 
