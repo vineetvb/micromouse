@@ -45,7 +45,8 @@ int main()
     // Create the Simulation object
     // Simulation display size params are in simulation.h
     Simulation sim;
-
+    sim.readMouseArt("/home/vbhatawadekar/code/micromouse/artwork/mouse.bmp");
+    
     // Start maze simulation
     mouse.start(&maze, &sim);
 
