@@ -73,7 +73,9 @@ private:
 
     int getX() const {return cx;}
     int getY() const {return cy;}
-    int getTheta() const {return ctheta;}
+    int getTheta() const {
+      int theta = (ctheta + 360) % 360;
+	return theta;}
 
     void show();
 

@@ -102,6 +102,7 @@ void Simulation::render(Mouse const* mouse)
         {
             image(xc + i, yc + j, 2) = 0;
             image(xc + i, yc + j, 1) = 0;
+            image(xc + i, yc + j, 0) = 0;
         }
     }
 
@@ -110,14 +111,37 @@ void Simulation::render(Mouse const* mouse)
     xc = pixelScale*mouse->getX() + pixelScale/2 - mouseWidthPixels/2  + 1;
     yc = pixelScale*(MAZESIZE - 1 - mouse->getY()) + pixelScale/2 - mouseWidthPixels/2  + 1;
 
+    cimg_library::CImg<unsigned char> mouseImage;
+    
+    switch( mouse->getTheta())
+    {
+    case 0:
+        mouseImage = orientedMouseArt[0];
+        break;
+    case 90:
+        mouseImage = orientedMouseArt[3];
+        break;
+    case 180:
+        mouseImage = orientedMouseArt[2];
+        break;
+    case 270:
+        mouseImage = orientedMouseArt[1];
+        break;
+    }
+
+    std::cout << mouseImage.height() << " mouse img " << mouseImage.width() << std::endl;
+    std::cout << "MWP " << mouseWidthPixels << std::endl;
+    
     for (int i = 0; i < mouseWidthPixels; ++i)
     {
         for (int j = 0; j < mouseWidthPixels; ++j)
         {
-            image(xc + i, yc + j, 2) = 250;
+            image(xc + i, yc + j, 0) = mouseImage(i, j, 0);
+            image(xc + i, yc + j, 1) = mouseImage(i, j, 1);
+            image(xc + i, yc + j, 2) = mouseImage(i, j, 2);
         }
     }
-
+    /*
     switch(mouse->getTheta())
     {
     case 0:
@@ -132,11 +156,30 @@ void Simulation::render(Mouse const* mouse)
     case 270:
         image(xc + 1, yc + 2, 1) = 250;
         break;
-    }
+        }*/
 
     xprev = mouse->getX();
     yprev = mouse->getY();
 }
+
+void Simulation::readMouseArt(std::string const& fileName)
+{
+    cimg_library::CImg<unsigned char> img(fileName.c_str()) ;
+    std::cout << img.height() << " img " << img.width() << std::endl;
+    
+    for (int i = 0; i < 4; ++i)
+    {
+        orientedMouseArt.push_back(img.get_rotate(90*i));
+    }
+
+    orientedMouseArt[0].save_bmp("0.bmp");
+    orientedMouseArt[1].save_bmp("1.bmp");
+    orientedMouseArt[2].save_bmp("2.bmp");
+
+
+            
+}
+
 
 void Simulation::saveBMP(std::string& fileName)
 {

@@ -37,12 +37,16 @@ public:
     void saveBMP(std::string& fileName);
     void saveBMP();
 
+    void readMouseArt(std::string const& fileName);
+
     // private:
     // helper method that draws cell, should probably be private
     void render(Maze const* maze, int x, int y, const unsigned char* color);
     int xprev, yprev;
 
     cimg_library::CImg<unsigned char> image;
+
+    std::vector< cimg_library::CImg<unsigned char> > orientedMouseArt;
 
 
     int imgHeight;
