@@ -30,7 +30,7 @@ int main()
     int mazeSize = 16;
     Maze maze(mazeSize);
     maze.makeBoundaryWalls();
-    maze.fromMazeFile("/home/vbhatawadekar/code/micromouse/mazefiles/hitel51.maz");
+    maze.fromMazeFile("../mazefiles/hitel51.maz");
 
     // Make a mouse
     Mouse mouse;
@@ -45,7 +45,7 @@ int main()
     // Create the Simulation object
     // Simulation display size params are in simulation.h
     Simulation sim;
-    sim.readMouseArt("/home/vbhatawadekar/code/micromouse/artwork/mouse.bmp");
+    sim.readMouseArt("../artwork/mouse.bmp");
     
     // Start maze simulation
     mouse.start(&maze, &sim);
