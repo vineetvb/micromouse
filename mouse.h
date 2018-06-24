@@ -37,6 +37,8 @@ private:
 
     /**
        Attempt moving forward.
+       Args:
+        refMaze: ptr to maze in which to move forward.
        Returns false on collision with refMaze.
     */
     bool advance(Maze const* refMaze);
